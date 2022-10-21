@@ -1,15 +1,12 @@
 import mysql.connector
-
 #connect to database
 mydb = mysql.connector.connect(
   host="localhost",
   user="root",
-  password="Fartrell987!",
+  password="password",
   database="heal")
-
 mycursor = mydb.cursor()
 mydb.autocommit = True
-
 #defines function for calculating PI values based on wins and updating the school table
 points = [42, 40, 38, 36, 34] #update to take values from database
 def PI_summation():
@@ -42,20 +39,16 @@ def PI_summation():
     mycursor.execute(D_get)
     D_count = mycursor.fetchone()[0]
     PI_sum = PI_sum + (D_count * points[4])
-
     #divde total PI summed values by number of games to get current PI for a given school
     mycursor.execute("SELECT games FROM school WHERE ID = '%s'" % (str_i))
     game_count = mycursor.fetchone()[0]
-    
     if game_count != 0:
       PI_sum = PI_sum / game_count
       if PI_sum < 1:
         PI_sum = 1
     else:
       PI_sum = 1
-
     mycursor.execute("UPDATE school SET PI = '%s' WHERE ID = '%s'" % (PI_sum, str_i))
-    
     i += 1
 def TI_summation():
   #surround this with while loop to loop thru school list, inner loop will generate/loop thru defeated/tied lists
@@ -89,9 +82,8 @@ def TI_summation():
       sec_PI = mycursor.fetchone()[0]
       TI_sum = TI_sum + sec_PI
       d += 1
-    
+    #clears data from temp_match table
     mycursor.execute("delete from temp_match_list")
-
     #find tie team name (when team 1) and number of ties as team 1
     primary_team = i
     mycursor.execute("SELECT school_name FROM school WHERE ID = '%s'" % (primary_team))
@@ -121,9 +113,7 @@ def TI_summation():
       #print (sec_PI)
       TI_sum = TI_sum + sec_PI
       d += 1
-      
     mycursor.execute("delete from temp_match_list")
-
     #find tie team name (when team 2) and number of ties as team 2
     primary_team = i
     mycursor.execute("SELECT school_name FROM school WHERE ID = '%s'" % (primary_team))
@@ -153,9 +143,6 @@ def TI_summation():
       #print (sec_PI)
       TI_sum = TI_sum + sec_PI
       d += 1
-    
-    
-    
     #TI = sum of defeated PI / games played * 10
     mycursor.execute("SELECT games FROM school WHERE ID = '%s'" % (primary_team))
     game_count = mycursor.fetchone()[0]
@@ -166,24 +153,6 @@ def TI_summation():
     mycursor.execute("UPDATE school SET TI = '%s' WHERE ID = '%s'" % (TI_sum, primary_team))
     #print (TI_sum)
     i += 1
-
-
-  #mycursor.execute("SELECT Lose_ID FROM match_list WHERE Win_ID = '%s'" % (school_name))
-  #def_teams = mycursor.fetchmany(c+1)
-  
-  #while c <= 3:
-   # new_def_team = mycursor.fetchone()[0]
-   # def_teams.append(new_def_team)
-   # c += 1
-  
-  """if tie_scenario in school_names:
-    mycursor.execute("SELECT Tie_ID_1 FROM match_list WHERE Tie_ID_2 = '%s'" % (school_name))
-    tie_teams_1 = mycursor.fetchone()[0]
-  
-  if tie_scenario in school_names:
-    mycursor.execute("SELECT Tie_ID_2 FROM match_list WHERE Tie_ID_1 = '%s'" % (school_name))
-    tie_teams_2 = mycursor.fetchone()[0]"""
-
 #get all class point values (will be user-alterable in future version, hence why these are not static set variables)
 str_class = ['AA', 'A', 'B', 'C', 'D']
 AA_points = A_points = B_points = C_points = D_points = 0
@@ -194,7 +163,6 @@ while i < len(str_class):
   mycursor.execute(point_value_get)
   class_points[i] = mycursor.fetchone()[0]
   i+=1
-
 #set list of schools - temporary, will be updated with a loop to gather from school table based on iterating ID
 school_names = ["Bangor", "Brewer", "Brunswick", "Camden", "Edward_Little", "Hampden", "Lewiston", "Mt_Ararat", "Mt_Blue", "Skowhegan", "Biddeford", "Bonny_Eagle", "Cheverus", "Deering", "Falmouth", "Gorham", "Kennebunk", "Marshwood", "Portland", "Sanford", "Scarborough", "South_Portland", "Thornton_Academy", "Westbrook", "Windham", "Belfast", "Caribou", "Ellsworth", "Foxcroft_Academy", "Hermon", "John_Bapst", "MDI", "Oceanside", "Old_Town", "Presque_Isle", "Waterville", "Cape_Elizabeth", "Cony", "Erskine", "Freeport", "Gardiner", "Greely", "Lake_Region", "Lincoln_Academy", "Medomak_Valley", "Morse", "Yarmouth", "York", "Calais", "Deer_Isle", "Dexter", "Fort_Kent", "George_Stevens", "Houlton", "Lee_Academy", "Madawaska", "Mattanawcook_Academy", "MCI", "Orono", "Penobscot", "Piscataquis", "Schenck_Stearns", "Van_Buren", "Washington_Academy", "Woodland", "Boothbay", "Carrabec", "Dirigo", "Madison", "Mountain_Valley", "NYA", "Spruce_Mountain", "Waynflete", "Winthrop"]
 #initialize choice variables at arbitrary string
@@ -203,7 +171,6 @@ choice = choice_2 = "~~~"
 choices = ["Y", "y", "N", "n"]
 #set application end condition to false to start
 end = False
-
 while choice not in choices: #user prompt
   choice = input("Do you have games/matches to add? y/n ")
   while end == False:
@@ -214,7 +181,6 @@ while choice not in choices: #user prompt
       int_match = mycursor.fetchone()[0]
       int_match = int(int_match)
       int_match += 1
-      
       #user input for game/match entry
       win_or_tie = input ("Is this a win or a tie? w/t ")
       if win_or_tie == "T" or win_or_tie == "t":
@@ -272,12 +238,6 @@ while choice not in choices: #user prompt
           mycursor.execute(tie_scenario)
           tie_scenario = mycursor.fetchone()[0]
           tie_scenario = str(tie_scenario)
-
-          #if win_scenario in school_names:
-          #  win_scenario = True
-          #else:
-          #  win_scenario = False
-
           #wins
           if win_scenario in school_names:
             win = "SELECT Win_ID FROM match_list WHERE ID = '%s'" % (str_i)
@@ -296,7 +256,6 @@ while choice not in choices: #user prompt
             str_lose = str(str_lose)
             mycursor.execute("UPDATE school SET games = games + 1 WHERE school_name = '%s'" % (str_lose))
             mycursor.execute("UPDATE school SET losses = losses + 1 WHERE school_name = '%s'" % (str_lose))
-          #ties -CURRENTLY NEEDS TO BE FIXED
           #should execute only if it's a tie
           if tie_scenario in school_names: #this gd block is still not updating the school table with ties - something to do with my win_scenario bool not firing correctly?
             tie_1 = "SELECT Tie_ID_1 FROM match_list WHERE ID = '%s'" % (str_i)
@@ -311,9 +270,6 @@ while choice not in choices: #user prompt
             mycursor.execute("UPDATE school SET ties = ties + 1 WHERE school_name = '%s'" % (str_tie_2))
             mycursor.execute("UPDATE school SET games = games + 1 WHERE school_name = '%s'" % (str_tie_1))
             mycursor.execute("UPDATE school SET games = games + 1 WHERE school_name = '%s'" % (str_tie_2))
-
-            #print (str_tie_1 + " tie updated")
-            #print (str_tie_2 + " tie updated")
           #class wins
           if win_scenario in school_names:
             class_check = "SELECT school.class, preliminary_index.points FROM school JOIN preliminary_index ON school.class = preliminary_index.class WHERE school.school_name = '%s'" % (str_lose)
