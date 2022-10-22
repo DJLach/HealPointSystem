@@ -10,8 +10,7 @@ mycursor = mydb.cursor()
 mydb.autocommit = True
 #clear match_list
 mycursor.execute("delete from match_list")
-file_name = input("What is the file name being used? Include .csv in the name: ")
-#2022_boystennis_match_list.csv
+file_name = input("What is the file name being used? Include the .csv extension in the name: ")
 #open csv file with match data
 with open(file_name) as csv_file:
     csv_reader = csv.reader(csv_file, delimiter = ',')
@@ -31,4 +30,4 @@ with open(file_name) as csv_file:
             match_val = (m_ID, m_Win_ID, m_Lose_ID, m_Tie_ID_1, m_Tie_ID_2)
             mycursor.execute(match_send, match_val)
             line_count += 1
-    print(f'Processed {line_count} lines.')
+    print(f'Processed {line_count} match results.')
