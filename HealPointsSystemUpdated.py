@@ -164,7 +164,7 @@ while i < len(str_class):
   class_points[i] = mycursor.fetchone()[0]
   i+=1
 #set list of schools - temporary, will be updated with a loop to gather from school table based on iterating ID
-school_names = ["Bangor", "Brewer", "Brunswick", "Camden", "Edward_Little", "Hampden", "Lewiston", "Mt_Ararat", "Mt_Blue", "Skowhegan", "Biddeford", "Bonny_Eagle", "Cheverus", "Deering", "Falmouth", "Gorham", "Kennebunk", "Marshwood", "Portland", "Sanford", "Scarborough", "South_Portland", "Thornton_Academy", "Westbrook", "Windham", "Belfast", "Caribou", "Ellsworth", "Foxcroft_Academy", "Hermon", "John_Bapst", "MDI", "Oceanside", "Old_Town", "Presque_Isle", "Waterville", "Cape_Elizabeth", "Cony", "Erskine", "Freeport", "Gardiner", "Greely", "Lake_Region", "Lincoln_Academy", "Medomak_Valley", "Morse", "Yarmouth", "York", "Calais", "Deer_Isle", "Dexter", "Fort_Kent", "George_Stevens", "Houlton", "Lee_Academy", "Madawaska", "Mattanawcook_Academy", "MCI", "Orono", "Penobscot", "Piscataquis", "Schenck_Stearns", "Van_Buren", "Washington_Academy", "Woodland", "Boothbay", "Carrabec", "Dirigo", "Madison", "Mountain_Valley", "NYA", "Spruce_Mountain", "Waynflete", "Winthrop"]
+school_names = ["MDI", "Morse", "Waterville", "Camden", "Ellsworth", "Mt_Ararat", "Yarmouth", "Spruce_Mountain", "Gray", "Lake_Region", "Greely"]
 #initialize choice variables at arbitrary string
 choice = choice_2 = "~~~"
 #set user command options
@@ -218,6 +218,9 @@ while choice not in choices: #user prompt
         mycursor.execute("UPDATE school SET A_wins = 0")
         mycursor.execute("UPDATE school SET B_wins = 0")
         mycursor.execute("UPDATE school SET C_wins = 0")
+        mycursor.execute("UPDATE school SET D_wins = 0")
+        mycursor.execute("UPDATE school SET PI = 0")
+        mycursor.execute("UPDATE school SET TI = 0")
         print ("games/matches reset")
         #determine how many matches are currently set in database
         number_matches = "SELECT COUNT(ID) FROM match_list;"
