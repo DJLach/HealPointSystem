@@ -17,26 +17,27 @@ def PI_summation():
   i = 1
   while i <= max_match:
     str_i = str(i)
+    tup_i = i,
     PI_sum = 0
     #find sum of all prelminary index values for each school
-    AA_get = "SELECT AA_Wins FROM school WHERE ID = '%s'" % (str_i)
-    mycursor.execute(AA_get)
+    AA_get = "SELECT AA_Wins FROM school WHERE ID = %s"
+    mycursor.execute(AA_get, tup_i)
     AA_count = mycursor.fetchone()[0]
     PI_sum = PI_sum + (AA_count * points[0]) #replace counts with class_points = [AA_points, A_points, B_points, C_points, D_points]
-    A_get = "SELECT A_Wins FROM school WHERE ID = '%s'" % (str_i)
-    mycursor.execute(A_get)
+    A_get = "SELECT A_Wins FROM school WHERE ID = %s"
+    mycursor.execute(A_get, tup_i)
     A_count = mycursor.fetchone()[0]
     PI_sum = PI_sum + (A_count * points[1])
-    B_get = "SELECT B_Wins FROM school WHERE ID = '%s'" % (str_i)
-    mycursor.execute(B_get)
+    B_get = "SELECT B_Wins FROM school WHERE ID = %s"
+    mycursor.execute(B_get, tup_i)
     B_count = mycursor.fetchone()[0]
     PI_sum = PI_sum + (B_count * points[2])
-    C_get = "SELECT C_Wins FROM school WHERE ID = '%s'" % (str_i)
-    mycursor.execute(C_get)
+    C_get = "SELECT C_Wins FROM school WHERE ID = %s"
+    mycursor.execute(C_get, tup_i)
     C_count = mycursor.fetchone()[0]
     PI_sum = PI_sum + (C_count * points[3])
-    D_get = "SELECT D_Wins FROM school WHERE ID = '%s'" % (str_i)
-    mycursor.execute(D_get)
+    D_get = "SELECT D_Wins FROM school WHERE ID = %s"
+    mycursor.execute(D_get, tup_i)
     D_count = mycursor.fetchone()[0]
     PI_sum = PI_sum + (D_count * points[4])
     #divde total PI summed values by number of games to get current PI for a given school
