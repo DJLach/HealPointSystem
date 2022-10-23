@@ -164,7 +164,15 @@ while i < len(str_class):
   class_points[i] = mycursor.fetchone()[0]
   i+=1
 #set list of schools - temporary, will be updated with a loop to gather from school table based on iterating ID
-school_names = ["MDI", "Morse", "Waterville", "Camden", "Ellsworth", "Mt_Ararat", "Yarmouth", "Spruce_Mountain", "Gray", "Lake_Region", "Greely"]
+school_names = []
+school_count = 1
+mycursor.execute("select count(*) from school")
+row_total = mycursor.fetchone()[0]
+while school_count <= row_total:
+    mycursor.execute("SELECT school_name FROM school WHERE ID = '%s'" % (school_count))
+    current_school_name = mycursor.fetchone()[0]
+    school_names.append(current_school_name)
+    school_count += 1
 #initialize choice variables at arbitrary string
 choice = choice_2 = "~~~"
 #set user command options
