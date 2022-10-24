@@ -67,13 +67,11 @@ def TI_summation():
     pri_name_2 = pri_name,
     select_lose_ID = "SELECT Lose_ID FROM match_list WHERE WIN_ID = %s"
     mycursor.execute(select_lose_ID, pri_name_2)
-    #mycursor.execute("SELECT Lose_ID FROM match_list WHERE WIN_ID = '%s'" % (pri_name))
     temp_length = len(mycursor.fetchall())
     #update temp_match_list to contain wins for a given team and provide iterating list
     c = 1
     while c <= temp_length:
       mycursor.execute(select_lose_ID, pri_name_2)
-      #mycursor.execute("SELECT Lose_ID FROM match_list WHERE WIN_ID = '%s'" % (pri_name))
       sec_name_tuple = mycursor.fetchall()[c-1]
       sec_name = "".join(sec_name_tuple)
       match_entry = "INSERT INTO Temp_Match_List (ID, Win_ID, Lose_ID) VALUES (%s, %s, %s)"
@@ -89,7 +87,9 @@ def TI_summation():
       select_lose_ID_temp = "SELECT Lose_ID FROM temp_match_list WHERE ID = %s"
       mycursor.execute(select_lose_ID_temp, tup_d)
       sec_name = mycursor.fetchone()[0]
-      mycursor.execute("SELECT PI FROM school WHERE school_name = '%s'" % (sec_name))
+      select_PI = "SELECT PI FROM school WHERE school_name = %s"
+      tup_sec_name = sec_name,
+      mycursor.execute(select_PI, tup_sec_name)
       sec_PI = mycursor.fetchone()[0]
       TI_sum = TI_sum + sec_PI
       d += 1
@@ -97,14 +97,18 @@ def TI_summation():
     mycursor.execute("delete from temp_match_list")
     #find tie team name (when team 1) and number of ties as team 1
     primary_team = i
-    mycursor.execute("SELECT school_name FROM school WHERE ID = '%s'" % (primary_team))
+    tup_primary_team = i, #CHECK THESE THREE LINES WITH TIE DATA
+    select_school_name_query = "SELECT school_name FROM school WHERE ID = %s"
+    mycursor.execute(select_school_name_query, tup_primary_team)
     pri_name = mycursor.fetchone()[0]
-    mycursor.execute("SELECT Tie_ID_2 FROM match_list WHERE Tie_ID_1 = '%s'" % (pri_name))
+    tup_pri_name = pri_name,
+    select_tie_ID_2 = "SELECT Tie_ID_2 FROM match_list WHERE Tie_ID_1 = %s"
+    mycursor.execute(select_tie_ID_2, tup_pri_name)
     temp_length = len(mycursor.fetchall())
     #update temp_match_list to contain ties for a given team and provide iterating list
     c = 1
     while c <= temp_length:
-      mycursor.execute("SELECT TIE_ID_2 FROM match_list WHERE Tie_ID_1 = '%s'" % (pri_name))
+      mycursor.execute(select_tie_ID_2, tup_pri_name)
       sec_name_tuple = mycursor.fetchall()[c-1]
       sec_name = "".join(sec_name_tuple)
       match_entry = "INSERT INTO Temp_Match_List (ID, Tie_ID_1, Tie_ID_2) VALUES (%s, %s, %s)"
@@ -115,53 +119,70 @@ def TI_summation():
     #add ties to TI
     d = 1
     while d <= temp_length:
-      mycursor.execute("SELECT Tie_ID_2 FROM temp_match_list WHERE ID = '%s'" % (d))
+      tuple_d = d,
+      s_t_2 = "SELECT Tie_ID_2 FROM temp_match_list WHERE ID = %s"
+      mycursor.execute(s_t_2, tuple_d)
       sec_name = mycursor.fetchone()[0]
-      mycursor.execute("SELECT PI FROM school WHERE school_name = '%s'" % (sec_name))
+      tuple_sec_name = sec_name,
+      select_PI = "SELECT PI FROM school WHERE school_name = %s"
+      mycursor.execute(select_PI, tuple_sec_name)
+      sec_PI = mycursor.fetchone()[0]
+      #only half the PI is used because it's a tie, not a win
+      sec_PI = sec_PI / 2
+      TI_sum = TI_sum + sec_PI
+      d += 1
+    mycursor.execute("delete from temp_match_list")
+    #find tie team name (when team 2) and number of ties as team 2
+    primary_team = i
+    t_p_t = primary_team,
+    s_s_n = "SELECT school_name FROM school WHERE ID = %s"
+    mycursor.execute(s_s_n, t_p_t)
+    pri_name = mycursor.fetchone()[0]
+    tuple_pri_name = pri_name,
+    s_t_1 = "SELECT Tie_ID_1 FROM match_list WHERE Tie_ID_2 = %s"
+    mycursor.execute(s_t_1, tuple_pri_name)
+    temp_length = len(mycursor.fetchall())
+    #update temp_match_list to contain ties for a given team and provide iterating list
+    c = 1
+    while c <= temp_length:
+      t_p_n = pri_name,
+      s_t_i_1 = "SELECT TIE_ID_1 FROM match_list WHERE Tie_ID_2 = %s"
+      mycursor.execute(s_t_i_1, t_p_n)
+      sec_name_tuple = mycursor.fetchall()[c-1]
+      sec_name = "".join(sec_name_tuple)
+      match_entry = "INSERT INTO Temp_Match_List (ID, Tie_ID_1, Tie_ID_2) VALUES (%s, %s, %s)"
+      str_c = str(c)
+      val = (str_c, pri_name, sec_name)
+      mycursor.execute(match_entry, val)
+      c += 1
+    #add ties to TI
+    d = 1
+    while d <= temp_length:
+      t_d = d,
+      s_t_i_2 = "SELECT Tie_ID_2 FROM temp_match_list WHERE ID = %s"
+      mycursor.execute(s_t_i_2, t_d)
+      sec_name = mycursor.fetchone()[0]
+      s_n = sec_name,
+      s_PI = "SELECT PI FROM school WHERE school_name = %s"
+      mycursor.execute(s_PI, s_n)
       sec_PI = mycursor.fetchone()[0]
       #only half the PI is used because it's a tie, not a win
       sec_PI = sec_PI / 2
       #print (sec_PI)
       TI_sum = TI_sum + sec_PI
       d += 1
-    mycursor.execute("delete from temp_match_list")
-    #find tie team name (when team 2) and number of ties as team 2
-    primary_team = i
-    mycursor.execute("SELECT school_name FROM school WHERE ID = '%s'" % (primary_team))
-    pri_name = mycursor.fetchone()[0]
-    mycursor.execute("SELECT Tie_ID_1 FROM match_list WHERE Tie_ID_2 = '%s'" % (pri_name))
-    temp_length = len(mycursor.fetchall())
-    #update temp_match_list to contain ties for a given team and provide iterating list
-    c = 1
-    while c <= temp_length:
-      mycursor.execute("SELECT TIE_ID_1 FROM match_list WHERE Tie_ID_2 = '%s'" % (pri_name))
-      sec_name_tuple = mycursor.fetchall()[c-1]
-      sec_name = "".join(sec_name_tuple)
-      match_entry = "INSERT INTO Temp_Match_List (ID, Tie_ID_1, Tie_ID_2) VALUES (%s, %s, %s)"
-      str_c = str(c)
-      val = (str_c, pri_name, sec_name)
-      mycursor.execute(match_entry, val)
-      c += 1
-    #add ties to TI
-    d = 1
-    while d <= temp_length:
-      mycursor.execute("SELECT Tie_ID_2 FROM temp_match_list WHERE ID = '%s'" % (d))
-      sec_name = mycursor.fetchone()[0]
-      mycursor.execute("SELECT PI FROM school WHERE school_name = '%s'" % (sec_name))
-      sec_PI = mycursor.fetchone()[0]
-      #only have the PI is used because it's a tie, not a win
-      sec_PI = sec_PI / 2
-      #print (sec_PI)
-      TI_sum = TI_sum + sec_PI
-      d += 1
     #TI = sum of defeated PI / games played * 10
-    mycursor.execute("SELECT games FROM school WHERE ID = '%s'" % (primary_team))
+    t_primary_team = primary_team,
+    s_g = "SELECT games FROM school WHERE ID = %s"
+    mycursor.execute(s_g, t_primary_team)
     game_count = mycursor.fetchone()[0]
     if game_count != 0:
       TI_sum = 10 * TI_sum / game_count
     else:
       TI_sum = 0
-    mycursor.execute("UPDATE school SET TI = '%s' WHERE ID = '%s'" % (TI_sum, primary_team))
+    tup_TI_pri = (TI_sum, primary_team)
+    u_s_s = "UPDATE school SET TI = %s WHERE ID = %s"
+    mycursor.execute(u_s_s, tup_TI_pri)
     #print (TI_sum)
     i += 1
 #get all class point values (will be user-alterable in future version, hence why these are not static set variables)
@@ -242,7 +263,7 @@ while choice not in choices: #user prompt
         mycursor.execute("UPDATE school SET D_wins = 0")
         mycursor.execute("UPDATE school SET PI = 0")
         mycursor.execute("UPDATE school SET TI = 0")
-        print ("games/matches reset")
+        print ("updating database. . .")
         #determine how many matches are currently set in database
         number_matches = "SELECT COUNT(ID) FROM match_list;"
         mycursor.execute(number_matches)
@@ -268,7 +289,6 @@ while choice not in choices: #user prompt
             mycursor.execute(win)
             str_win = mycursor.fetchone()[0]
             str_win = str(str_win)
-            #print (str_win + " win updated")
             str_win = str(str_win)
             mycursor.execute("UPDATE school SET games = games + 1 WHERE school_name = '%s'" % (str_win))
             mycursor.execute("UPDATE school SET wins = wins + 1 WHERE school_name = '%s'" % (str_win))
