@@ -41,7 +41,8 @@ def PI_summation():
     D_count = mycursor.fetchone()[0]
     PI_sum = PI_sum + (D_count * points[4])
     #divde total PI summed values by number of games to get current PI for a given school
-    mycursor.execute("SELECT games FROM school WHERE ID = '%s'" % (str_i))
+    game_query = "SELECT games FROM school WHERE ID = %s"
+    mycursor.execute(game_query, tup_i)
     game_count = mycursor.fetchone()[0]
     if game_count != 0:
       PI_sum = PI_sum / game_count
@@ -49,7 +50,9 @@ def PI_summation():
         PI_sum = 1
     else:
       PI_sum = 1
-    mycursor.execute("UPDATE school SET PI = '%s' WHERE ID = '%s'" % (PI_sum, str_i))
+    PI_update = "UPDATE school SET PI = %s WHERE ID = %s"
+    tup_PI_update = (PI_sum, i)
+    mycursor.execute(PI_update, tup_PI_update)
     i += 1
 def TI_summation():
   #surround this with while loop to loop thru school list, inner loop will generate/loop thru defeated/tied lists
@@ -57,15 +60,20 @@ def TI_summation():
   while i <= len(school_names):
     mycursor.execute("delete from temp_match_list")
     #find winning team name and number of wins
-    primary_team = i
-    mycursor.execute("SELECT school_name FROM school WHERE ID = '%s'" % (primary_team))
+    primary_team = i,
+    select_school_name = "SELECT school_name FROM school WHERE ID = %s"
+    mycursor.execute(select_school_name, primary_team)
     pri_name = mycursor.fetchone()[0]
-    mycursor.execute("SELECT Lose_ID FROM match_list WHERE WIN_ID = '%s'" % (pri_name))
+    pri_name_2 = pri_name,
+    select_lose_ID = "SELECT Lose_ID FROM match_list WHERE WIN_ID = %s"
+    mycursor.execute(select_lose_ID, pri_name_2)
+    #mycursor.execute("SELECT Lose_ID FROM match_list WHERE WIN_ID = '%s'" % (pri_name))
     temp_length = len(mycursor.fetchall())
     #update temp_match_list to contain wins for a given team and provide iterating list
     c = 1
     while c <= temp_length:
-      mycursor.execute("SELECT Lose_ID FROM match_list WHERE WIN_ID = '%s'" % (pri_name))
+      mycursor.execute(select_lose_ID, pri_name_2)
+      #mycursor.execute("SELECT Lose_ID FROM match_list WHERE WIN_ID = '%s'" % (pri_name))
       sec_name_tuple = mycursor.fetchall()[c-1]
       sec_name = "".join(sec_name_tuple)
       match_entry = "INSERT INTO Temp_Match_List (ID, Win_ID, Lose_ID) VALUES (%s, %s, %s)"
@@ -77,7 +85,9 @@ def TI_summation():
     d = 1
     TI_sum = 0
     while d <= temp_length:
-      mycursor.execute("SELECT Lose_ID FROM temp_match_list WHERE ID = '%s'" % (d))
+      tup_d = d,
+      select_lose_ID_temp = "SELECT Lose_ID FROM temp_match_list WHERE ID = %s"
+      mycursor.execute(select_lose_ID_temp, tup_d)
       sec_name = mycursor.fetchone()[0]
       mycursor.execute("SELECT PI FROM school WHERE school_name = '%s'" % (sec_name))
       sec_PI = mycursor.fetchone()[0]
@@ -170,7 +180,9 @@ school_count = 1
 mycursor.execute("select count(*) from school")
 row_total = mycursor.fetchone()[0]
 while school_count <= row_total:
-    mycursor.execute("SELECT school_name FROM school WHERE ID = '%s'" % (school_count))
+    school_select = "SELECT school_name FROM school WHERE ID = %s"
+    tup_school_count = school_count,
+    mycursor.execute(school_select, tup_school_count)
     current_school_name = mycursor.fetchone()[0]
     school_names.append(current_school_name)
     school_count += 1
