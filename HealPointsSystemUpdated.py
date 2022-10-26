@@ -191,8 +191,9 @@ AA_points = A_points = B_points = C_points = D_points = 0
 class_points = [AA_points, A_points, B_points, C_points, D_points]
 i = 0
 while i < len(str_class):
-  point_value_get = "SELECT points FROM preliminary_index WHERE class = '%s'" % (str_class[i])
-  mycursor.execute(point_value_get)
+  tup_str_class = str_class[i],
+  point_value_get = "SELECT points FROM preliminary_index WHERE class = %s"
+  mycursor.execute(point_value_get, tup_str_class)
   class_points[i] = mycursor.fetchone()[0]
   i+=1
 #set list of schools - temporary, will be updated with a loop to gather from school table based on iterating ID
@@ -274,50 +275,58 @@ while choice not in choices: #user prompt
           str_i = str(i)
           #determine if win/loss or tie/tie scenario
           win_scenario = "~~~"
-          win_scenario = "SELECT Win_ID FROM match_list WHERE ID = '%s'" % (str_i)
-          mycursor.execute(win_scenario)
+          tup_i = str_i,
+          win_scenario = "SELECT Win_ID FROM match_list WHERE ID = %s"
+          mycursor.execute(win_scenario, tup_i)
           win_scenario = mycursor.fetchone()[0]
-          win_scenario = str(win_scenario) #if win_scenario is NOT NULL then win/lose scenario
+          win_scenario = str(win_scenario)
           tie_scenario = "~~~"
-          tie_scenario = "SELECT Tie_ID_2 FROM match_list WHERE ID = '%s'" % (str_i)
-          mycursor.execute(tie_scenario)
+          tie_scenario = "SELECT Tie_ID_2 FROM match_list WHERE ID = %s"
+          mycursor.execute(tie_scenario, tup_i)
           tie_scenario = mycursor.fetchone()[0]
           tie_scenario = str(tie_scenario)
           #wins
           if win_scenario in school_names:
-            win = "SELECT Win_ID FROM match_list WHERE ID = '%s'" % (str_i)
-            mycursor.execute(win)
+            win = "SELECT Win_ID FROM match_list WHERE ID = %s"
+            mycursor.execute(win, tup_i)
             str_win = mycursor.fetchone()[0]
             str_win = str(str_win)
-            str_win = str(str_win)
-            mycursor.execute("UPDATE school SET games = games + 1 WHERE school_name = '%s'" % (str_win))
-            mycursor.execute("UPDATE school SET wins = wins + 1 WHERE school_name = '%s'" % (str_win))
-            lose = "SELECT Lose_ID FROM match_list WHERE ID = '%s'" % (str_i)
-            mycursor.execute(lose)
+            tup_str_win = str_win,
+            update_school_games_w = "UPDATE school SET games = games + 1 WHERE school_name = %s"
+            update_school_wins = "UPDATE school SET wins = wins + 1 WHERE school_name = %s"
+            mycursor.execute(update_school_games_w, tup_str_win)
+            mycursor.execute(update_school_wins, tup_str_win)
+            lose = "SELECT Lose_ID FROM match_list WHERE ID = %s"
+            mycursor.execute(lose, tup_i)
             str_lose = mycursor.fetchone()[0]
             str_lose = str(str_lose)
-            #print (str_lose + " loss updated")
-            str_lose = str(str_lose)
-            mycursor.execute("UPDATE school SET games = games + 1 WHERE school_name = '%s'" % (str_lose))
-            mycursor.execute("UPDATE school SET losses = losses + 1 WHERE school_name = '%s'" % (str_lose))
+            tup_str_lose = str_lose,
+            update_school_games_l = "UPDATE school SET games = games + 1 WHERE school_name = %s"
+            update_school_losses = "UPDATE school SET losses = losses + 1 WHERE school_name = %s"
+            mycursor.execute(update_school_games_l, tup_str_lose)
+            mycursor.execute(update_school_losses, tup_str_lose)
           #should execute only if it's a tie
-          if tie_scenario in school_names: #this gd block is still not updating the school table with ties - something to do with my win_scenario bool not firing correctly?
-            tie_1 = "SELECT Tie_ID_1 FROM match_list WHERE ID = '%s'" % (str_i)
-            mycursor.execute(tie_1)
+          if tie_scenario in school_names:
+            tie_1 = "SELECT Tie_ID_1 FROM match_list WHERE ID = %s"
+            mycursor.execute(tie_1, tup_i)
             str_tie_1 = mycursor.fetchone()[0]
             str_tie_1 = str(str_tie_1)
-            tie_2 = "SELECT Tie_ID_2 FROM match_list WHERE ID = '%s'" % (str_i)
-            mycursor.execute(tie_2)
+            tup_str_tie_1 = str_tie_1,
+            tie_2 = "SELECT Tie_ID_2 FROM match_list WHERE ID = %s"
+            mycursor.execute(tie_2, tup_i)
             str_tie_2 = mycursor.fetchone()[0]
             str_tie_2 = str(str_tie_2)
-            mycursor.execute("UPDATE school SET ties = ties + 1 WHERE school_name = '%s'" % (str_tie_1))
-            mycursor.execute("UPDATE school SET ties = ties + 1 WHERE school_name = '%s'" % (str_tie_2))
-            mycursor.execute("UPDATE school SET games = games + 1 WHERE school_name = '%s'" % (str_tie_1))
-            mycursor.execute("UPDATE school SET games = games + 1 WHERE school_name = '%s'" % (str_tie_2))
+            tup_str_tie_2 = str_tie_2,
+            update_ties = "UPDATE school SET ties = ties + 1 WHERE school_name = %s"
+            update_games = "UPDATE school SET games = games + 1 WHERE school_name = %s"
+            mycursor.execute(update_ties, tup_str_tie_1)
+            mycursor.execute(update_ties, tup_str_tie_2)
+            mycursor.execute(update_games, tup_str_tie_1)
+            mycursor.execute(update_games, tup_str_tie_2)
           #class wins
           if win_scenario in school_names:
-            class_check = "SELECT school.class, preliminary_index.points FROM school JOIN preliminary_index ON school.class = preliminary_index.class WHERE school.school_name = '%s'" % (str_lose)
-            mycursor.execute(class_check)
+            class_check = "SELECT school.class, preliminary_index.points FROM school JOIN preliminary_index ON school.class = preliminary_index.class WHERE school.school_name = %s"
+            mycursor.execute(class_check, tup_str_lose)
             str_class_check = mycursor.fetchone()[0]
             str_class_check = str(str_class_check)
             if str_class_check == "AA":
@@ -330,6 +339,7 @@ while choice not in choices: #user prompt
               class_check_column = "C_Wins"
             elif str_class_check == "D":
               class_check_column = "D_Wins"
+            #string replacement used because previous methods couldn't be used to pass variable column names to MySQL database
             mycursor.execute("UPDATE school SET %s = %s + 1 WHERE school_name = '%s'" % (class_check_column, class_check_column, str_win))
           if tie_scenario in school_names:
             class_check = "SELECT school.class, preliminary_index.points FROM school JOIN preliminary_index ON school.class = preliminary_index.class WHERE school.school_name = '%s'" % (str_tie_1)
@@ -346,6 +356,7 @@ while choice not in choices: #user prompt
               class_check_column = "C_Wins"
             elif str_class_check == "D":
               class_check_column = "D_Wins"
+            #string replacement used because previous methods couldn't be used to pass variable column names to MySQL database
             mycursor.execute("UPDATE school SET %s = %s + 0.5 WHERE school_name = '%s'" % (class_check_column, class_check_column, str_tie_2))
             class_check = "SELECT school.class, preliminary_index.points FROM school JOIN preliminary_index ON school.class = preliminary_index.class WHERE school.school_name = '%s'" % (str_tie_2)
             mycursor.execute(class_check)
@@ -361,6 +372,7 @@ while choice not in choices: #user prompt
               class_check_column = "C_Wins"
             elif str_class_check == "D":
               class_check_column = "D_Wins"
+            #string replacement used because previous methods couldn't be used to pass variable column names to MySQL database
             mycursor.execute("UPDATE school SET %s = %s + 0.5 WHERE school_name = '%s'" % (class_check_column, class_check_column, str_tie_1))
           i += 1
         PI_summation()
