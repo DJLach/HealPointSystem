@@ -30,3 +30,4 @@ with open(file_name) as csv_file:
             mycursor.execute(school_send, school_val)
             line_count += 1
     print(f'Processed {line_count} lines.')
+mydb.close

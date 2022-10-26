@@ -32,3 +32,4 @@ with open(file_name) as csv_file:
             mycursor.execute(match_send, match_val)
             line_count += 1
     print(f'Processed {line_count} lines.')
+mydb.close
