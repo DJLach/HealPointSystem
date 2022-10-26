@@ -342,8 +342,8 @@ while choice not in choices: #user prompt
             #string replacement used because previous methods couldn't be used to pass variable column names to MySQL database
             mycursor.execute("UPDATE school SET %s = %s + 1 WHERE school_name = '%s'" % (class_check_column, class_check_column, str_win))
           if tie_scenario in school_names:
-            class_check = "SELECT school.class, preliminary_index.points FROM school JOIN preliminary_index ON school.class = preliminary_index.class WHERE school.school_name = '%s'" % (str_tie_1)
-            mycursor.execute(class_check)
+            class_check = "SELECT school.class, preliminary_index.points FROM school JOIN preliminary_index ON school.class = preliminary_index.class WHERE school.school_name = %s"
+            mycursor.execute(class_check, tup_str_tie_1)
             str_class_check = mycursor.fetchone()[0]
             str_class_check = str(str_class_check)
             if str_class_check == "AA":
@@ -358,8 +358,8 @@ while choice not in choices: #user prompt
               class_check_column = "D_Wins"
             #string replacement used because previous methods couldn't be used to pass variable column names to MySQL database
             mycursor.execute("UPDATE school SET %s = %s + 0.5 WHERE school_name = '%s'" % (class_check_column, class_check_column, str_tie_2))
-            class_check = "SELECT school.class, preliminary_index.points FROM school JOIN preliminary_index ON school.class = preliminary_index.class WHERE school.school_name = '%s'" % (str_tie_2)
-            mycursor.execute(class_check)
+            class_check = "SELECT school.class, preliminary_index.points FROM school JOIN preliminary_index ON school.class = preliminary_index.class WHERE school.school_name = %s"
+            mycursor.execute(class_check, tup_str_tie_2)
             str_class_check = mycursor.fetchone()[0]
             str_class_check = str(str_class_check)
             if str_class_check == "AA":
