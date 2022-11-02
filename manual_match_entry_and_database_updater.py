@@ -195,7 +195,7 @@ while i < len(str_class):
   mycursor.execute(point_value_get, tup_str_class)
   class_points[i] = mycursor.fetchone()[0]
   i+=1
-#set list of schools - temporary, will be updated with a loop to gather from school table based on iterating ID
+#set list of schools
 school_names = []
 school_count = 1
 mycursor.execute("select count(*) from school")
