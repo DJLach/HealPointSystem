@@ -16,7 +16,6 @@ def PI_summation():
   max_match = int(max_match)
   i = 1
   while i <= max_match:
-    str_i = str(i)
     tup_i = i,
     PI_sum = 0
     #find sum of all prelminary index values for each school
