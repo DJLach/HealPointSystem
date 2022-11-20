@@ -316,7 +316,45 @@ def add_matches():
       mycursor.execute(match_entry)
       print(mycursor.rowcount, "game/match result recorded")
 
+      #update wins/losses in class_ID_school table
+      loss_class_query = "SELECT class FROM %s WHERE school_name = '%s'" % (school_name, lose_school)
+      mycursor.execute(loss_class_query)
+      loss_class = mycursor.fetchone()[0]
+      loss_class = str(loss_class)
+      class_win_column = loss_class + "_wins"
+      number_class_wins_query = "SELECT %s FROM %s WHERE school_name = '%s'" % (class_win_column, school_name, win_school)
+      mycursor.execute(number_class_wins_query)
+      number_class_wins = mycursor.fetchone()[0]
+      number_class_wins = int(number_class_wins)
+      number_class_wins = number_class_wins + 1
+      update_class_wins_query = "UPDATE %s SET %s = %s WHERE school_name = '%s'" % (school_name, class_win_column, number_class_wins, win_school)
+      mycursor.execute(update_class_wins_query)
       
+      number_wins_query = "SELECT wins FROM %s WHERE school_name = '%s'" % (school_name, win_school)
+      number_losses_query = "SELECT losses FROM %s WHERE school_name = '%s'" % (school_name, lose_school)
+      mycursor.execute(number_wins_query)
+      number_wins = mycursor.fetchone()[0]
+      number_wins += 1 #increase ties by 1
+      mycursor.execute(number_losses_query)
+      number_losses = mycursor.fetchone()[0]
+      number_losses += 1 #increase ties by 1
+      update_wins_query = "UPDATE %s SET wins = %s WHERE school_name = '%s'" % (school_name, number_wins, win_school)
+      update_losses_query = "UPDATE %s SET losses = %s WHERE school_name = '%s'" % (school_name, number_losses, lose_school)
+      mycursor.execute(update_wins_query)
+      mycursor.execute(update_losses_query)
+
+      number_games_query_1 = "SELECT games from %s WHERE school_name = '%s'" % (school_name, win_school)
+      number_games_query_2 = "SELECT games from %s WHERE school_name = '%s'" % (school_name, lose_school)
+      mycursor.execute(number_games_query_1)
+      number_games_1 = mycursor.fetchone()[0]
+      number_games_1 += 1 #increases games by 1
+      mycursor.execute(number_games_query_2)
+      number_games_2 = mycursor.fetchone()[0]
+      number_games_2 += 1 #increase games by 1
+      update_games_query_1 = "UPDATE %s SET games = %s WHERE school_name = '%s'" % (school_name, number_games_1, win_school)
+      update_games_query_2 = "UPDATE %s SET games = %s WHERE school_name = '%s'" % (school_name, number_games_2, lose_school)
+      mycursor.execute(update_games_query_1)
+      mycursor.execute(update_games_query_2)
 
     else:
       print ("This is not a valid command.")
