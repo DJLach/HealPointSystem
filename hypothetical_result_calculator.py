@@ -1,3 +1,5 @@
+import decimal
+from decimal import Decimal
 import mysql.connector
 import csv
 #connect to database
@@ -252,6 +254,58 @@ def add_matches():
       match_entry = "INSERT INTO %s (ID, Tie_ID_1, Tie_ID_2) VALUES (%s, '%s', '%s')" % (match_list_name, str_match_number, tie_school_1, tie_school_2)
       mycursor.execute(match_entry)
       print(mycursor.rowcount, "game/match result recorded")
+      #update ties in class_ID_school table
+      tie_class_query_1 = "SELECT class FROM %s WHERE school_name = '%s'" % (school_name, tie_school_1)
+      tie_class_query_2 = "SELECT class FROM %s WHERE school_name = '%s'" % (school_name, tie_school_2)
+      mycursor.execute(tie_class_query_1)
+      tie_class_1 = mycursor.fetchone()[0]
+      tie_class_1 = str(tie_class_1)
+      mycursor.execute(tie_class_query_2)
+      tie_class_2 = mycursor.fetchone()[0]
+      tie_class_2 = str(tie_class_2)
+      class_win_column_1 = tie_class_2 + "_wins" #swap necessary because opponent's class is what matters
+      class_win_column_2 = tie_class_1 + "_wins"
+      number_class_wins_query_1 = "SELECT %s FROM %s WHERE school_name = '%s'" % (class_win_column_1, school_name, tie_school_1)
+      number_class_wins_query_2 = "SELECT %s FROM %s WHERE school_name = '%s'" % (class_win_column_2, school_name, tie_school_2)
+      mycursor.execute(number_class_wins_query_1)
+      number_class_wins_1 = mycursor.fetchone()[0]
+      number_class_wins_1 = Decimal(number_class_wins_1)
+      number_class_wins_1 = number_class_wins_1 + Decimal(0.5)
+      mycursor.execute(number_class_wins_query_2)
+      number_class_wins_2 = mycursor.fetchone()[0]
+      number_class_wins_2 = Decimal(number_class_wins_2)
+      number_class_wins_2 = number_class_wins_2 + Decimal(0.5)
+      update_class_wins_query_1 = "UPDATE %s SET %s = %s WHERE school_name = '%s'" % (school_name, class_win_column_1, number_class_wins_1, tie_school_1)
+      update_class_wins_query_2 = "UPDATE %s SET %s = %s WHERE school_name = '%s'" % (school_name, class_win_column_2, number_class_wins_2, tie_school_2)
+      mycursor.execute(update_class_wins_query_1)
+      mycursor.execute(update_class_wins_query_2)
+      
+      number_ties_query_1 = "SELECT ties FROM %s WHERE school_name = '%s'" % (school_name, tie_school_1)
+      number_ties_query_2 = "SELECT ties FROM %s WHERE school_name = '%s'" % (school_name, tie_school_2)
+      mycursor.execute(number_ties_query_1)
+      number_ties_1 = mycursor.fetchone()[0]
+      number_ties_1 += 1 #increase ties by 1
+      mycursor.execute(number_ties_query_2)
+      number_ties_2 = mycursor.fetchone()[0]
+      number_ties_2 += 1 #increase ties by 1
+      update_ties_query_1 = "UPDATE %s SET ties = %s WHERE school_name = '%s'" % (school_name, number_ties_1, tie_school_1)
+      update_ties_query_2 = "UPDATE %s SET ties = %s WHERE school_name = '%s'" % (school_name, number_ties_2, tie_school_2)
+      mycursor.execute(update_ties_query_1)
+      mycursor.execute(update_ties_query_2)
+
+      number_games_query_1 = "SELECT games from %s WHERE school_name = '%s'" % (school_name, tie_school_1)
+      number_games_query_2 = "SELECT games from %s WHERE school_name = '%s'" % (school_name, tie_school_2)
+      mycursor.execute(number_games_query_1)
+      number_games_1 = mycursor.fetchone()[0]
+      number_games_1 += 1 #increases games by 1
+      mycursor.execute(number_games_query_2)
+      number_games_2 = mycursor.fetchone()[0]
+      number_games_2 += 1 #increase games by 1
+      update_games_query_1 = "UPDATE %s SET games = %s WHERE school_name = '%s'" % (school_name, number_games_1, tie_school_1)
+      update_games_query_2 = "UPDATE %s SET games = %s WHERE school_name = '%s'" % (school_name, number_games_2, tie_school_2)
+      mycursor.execute(update_games_query_1)
+      mycursor.execute(update_games_query_2)
+
     elif win_or_tie == "W" or win_or_tie == "w":
       win_school = input ("Winning team name: ")
       lose_school = input ("Losing team name: ")
@@ -261,6 +315,9 @@ def add_matches():
       match_entry = "INSERT INTO %s (ID, Win_ID, Lose_ID) VALUES (%s, '%s', '%s')" % (match_list_name, str_match_number, win_school, lose_school)
       mycursor.execute(match_entry)
       print(mycursor.rowcount, "game/match result recorded")
+
+      
+
     else:
       print ("This is not a valid command.")
     choice = input("Would you like to add another game/match result? Y/N ")
