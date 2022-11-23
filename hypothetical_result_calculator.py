@@ -238,143 +238,213 @@ def index_reset():
 
   print ("resetting PI and TI values. . .")
 def add_matches():
+  match_added = False #initially no hypothetical matches have been added
   max_ID_query = "SELECT MAX(ID) FROM %s" % (match_list_name)
   mycursor.execute(max_ID_query)
   max_ID = mycursor.fetchone()[0]
   match_number = max_ID + 1
-  choice = input("Do you have games/matches to add? y/n ")
-  while choice == "y" or choice == "Y":
-    win_or_tie = input ("Is this a win or a tie? w/t ")
-    if win_or_tie == "T" or win_or_tie == "t":
-      tie_school_1 = input ("First team that tied: ") #input sanitization needed here -> check against school[] array to confirm it's in it and to avoid SQL injection
-      tie_school_2 = input ("Second team that tied: ")
-      #enter match result into match_list if tie
-      str_match_number = str(match_number)
-      #if in school[]
-      match_entry = "INSERT INTO %s (ID, Tie_ID_1, Tie_ID_2) VALUES (%s, '%s', '%s')" % (match_list_name, str_match_number, tie_school_1, tie_school_2)
-      mycursor.execute(match_entry)
-      print(mycursor.rowcount, "game/match result recorded")
-      #update ties in class_ID_school table
-      tie_class_query_1 = "SELECT class FROM %s WHERE school_name = '%s'" % (school_name, tie_school_1)
-      tie_class_query_2 = "SELECT class FROM %s WHERE school_name = '%s'" % (school_name, tie_school_2)
-      mycursor.execute(tie_class_query_1)
-      tie_class_1 = mycursor.fetchone()[0]
-      tie_class_1 = str(tie_class_1)
-      mycursor.execute(tie_class_query_2)
-      tie_class_2 = mycursor.fetchone()[0]
-      tie_class_2 = str(tie_class_2)
-      class_win_column_1 = tie_class_2 + "_wins" #swap necessary because opponent's class is what matters
-      class_win_column_2 = tie_class_1 + "_wins"
-      number_class_wins_query_1 = "SELECT %s FROM %s WHERE school_name = '%s'" % (class_win_column_1, school_name, tie_school_1)
-      number_class_wins_query_2 = "SELECT %s FROM %s WHERE school_name = '%s'" % (class_win_column_2, school_name, tie_school_2)
-      mycursor.execute(number_class_wins_query_1)
-      number_class_wins_1 = mycursor.fetchone()[0]
-      number_class_wins_1 = Decimal(number_class_wins_1)
-      number_class_wins_1 = number_class_wins_1 + Decimal(0.5)
-      mycursor.execute(number_class_wins_query_2)
-      number_class_wins_2 = mycursor.fetchone()[0]
-      number_class_wins_2 = Decimal(number_class_wins_2)
-      number_class_wins_2 = number_class_wins_2 + Decimal(0.5)
-      update_class_wins_query_1 = "UPDATE %s SET %s = %s WHERE school_name = '%s'" % (school_name, class_win_column_1, number_class_wins_1, tie_school_1)
-      update_class_wins_query_2 = "UPDATE %s SET %s = %s WHERE school_name = '%s'" % (school_name, class_win_column_2, number_class_wins_2, tie_school_2)
-      mycursor.execute(update_class_wins_query_1)
-      mycursor.execute(update_class_wins_query_2)
-      
-      number_ties_query_1 = "SELECT ties FROM %s WHERE school_name = '%s'" % (school_name, tie_school_1)
-      number_ties_query_2 = "SELECT ties FROM %s WHERE school_name = '%s'" % (school_name, tie_school_2)
-      mycursor.execute(number_ties_query_1)
-      number_ties_1 = mycursor.fetchone()[0]
-      number_ties_1 += 1 #increase ties by 1
-      mycursor.execute(number_ties_query_2)
-      number_ties_2 = mycursor.fetchone()[0]
-      number_ties_2 += 1 #increase ties by 1
-      update_ties_query_1 = "UPDATE %s SET ties = %s WHERE school_name = '%s'" % (school_name, number_ties_1, tie_school_1)
-      update_ties_query_2 = "UPDATE %s SET ties = %s WHERE school_name = '%s'" % (school_name, number_ties_2, tie_school_2)
-      mycursor.execute(update_ties_query_1)
-      mycursor.execute(update_ties_query_2)
+  choice = None
+  while True:
+    if choice == None:
+      choice = input("Do you have hypothetical games/matches to add? y/n ").upper()
+    if choice == "Y":
+      win_or_tie = input ("Is this a win or a tie? w/t ").upper()
+      if win_or_tie == "T":
+        tie_school_1 = input ("First team that tied: ") #input sanitization needed here -> check against school[] array to confirm it's in it and to avoid SQL injection
+        tie_school_2 = input ("Second team that tied: ")
+        #enter match result into match_list if tie
+        str_match_number = str(match_number)
+        #if in school[]
+        match_entry = "INSERT INTO %s (ID, Tie_ID_1, Tie_ID_2) VALUES (%s, '%s', '%s')" % (match_list_name, str_match_number, tie_school_1, tie_school_2)
+        mycursor.execute(match_entry)
+        print(mycursor.rowcount, "game/match result recorded")
+        #update ties in class_ID_school table
+        tie_class_query_1 = "SELECT class FROM %s WHERE school_name = '%s'" % (school_name, tie_school_1)
+        tie_class_query_2 = "SELECT class FROM %s WHERE school_name = '%s'" % (school_name, tie_school_2)
+        mycursor.execute(tie_class_query_1)
+        tie_class_1 = mycursor.fetchone()[0]
+        tie_class_1 = str(tie_class_1)
+        mycursor.execute(tie_class_query_2)
+        tie_class_2 = mycursor.fetchone()[0]
+        tie_class_2 = str(tie_class_2)
+        class_win_column_1 = tie_class_2 + "_wins" #swap necessary because opponent's class is what matters
+        class_win_column_2 = tie_class_1 + "_wins"
+        number_class_wins_query_1 = "SELECT %s FROM %s WHERE school_name = '%s'" % (class_win_column_1, school_name, tie_school_1)
+        number_class_wins_query_2 = "SELECT %s FROM %s WHERE school_name = '%s'" % (class_win_column_2, school_name, tie_school_2)
+        mycursor.execute(number_class_wins_query_1)
+        number_class_wins_1 = mycursor.fetchone()[0]
+        number_class_wins_1 = Decimal(number_class_wins_1)
+        number_class_wins_1 = number_class_wins_1 + Decimal(0.5)
+        mycursor.execute(number_class_wins_query_2)
+        number_class_wins_2 = mycursor.fetchone()[0]
+        number_class_wins_2 = Decimal(number_class_wins_2)
+        number_class_wins_2 = number_class_wins_2 + Decimal(0.5)
+        update_class_wins_query_1 = "UPDATE %s SET %s = %s WHERE school_name = '%s'" % (school_name, class_win_column_1, number_class_wins_1, tie_school_1)
+        update_class_wins_query_2 = "UPDATE %s SET %s = %s WHERE school_name = '%s'" % (school_name, class_win_column_2, number_class_wins_2, tie_school_2)
+        mycursor.execute(update_class_wins_query_1)
+        mycursor.execute(update_class_wins_query_2)
+        
+        number_ties_query_1 = "SELECT ties FROM %s WHERE school_name = '%s'" % (school_name, tie_school_1)
+        number_ties_query_2 = "SELECT ties FROM %s WHERE school_name = '%s'" % (school_name, tie_school_2)
+        mycursor.execute(number_ties_query_1)
+        number_ties_1 = mycursor.fetchone()[0]
+        number_ties_1 += 1 #increase ties by 1
+        mycursor.execute(number_ties_query_2)
+        number_ties_2 = mycursor.fetchone()[0]
+        number_ties_2 += 1 #increase ties by 1
+        update_ties_query_1 = "UPDATE %s SET ties = %s WHERE school_name = '%s'" % (school_name, number_ties_1, tie_school_1)
+        update_ties_query_2 = "UPDATE %s SET ties = %s WHERE school_name = '%s'" % (school_name, number_ties_2, tie_school_2)
+        mycursor.execute(update_ties_query_1)
+        mycursor.execute(update_ties_query_2)
 
-      number_games_query_1 = "SELECT games from %s WHERE school_name = '%s'" % (school_name, tie_school_1)
-      number_games_query_2 = "SELECT games from %s WHERE school_name = '%s'" % (school_name, tie_school_2)
-      mycursor.execute(number_games_query_1)
-      number_games_1 = mycursor.fetchone()[0]
-      number_games_1 += 1 #increases games by 1
-      mycursor.execute(number_games_query_2)
-      number_games_2 = mycursor.fetchone()[0]
-      number_games_2 += 1 #increase games by 1
-      update_games_query_1 = "UPDATE %s SET games = %s WHERE school_name = '%s'" % (school_name, number_games_1, tie_school_1)
-      update_games_query_2 = "UPDATE %s SET games = %s WHERE school_name = '%s'" % (school_name, number_games_2, tie_school_2)
-      mycursor.execute(update_games_query_1)
-      mycursor.execute(update_games_query_2)
+        number_games_query_1 = "SELECT games from %s WHERE school_name = '%s'" % (school_name, tie_school_1)
+        number_games_query_2 = "SELECT games from %s WHERE school_name = '%s'" % (school_name, tie_school_2)
+        mycursor.execute(number_games_query_1)
+        number_games_1 = mycursor.fetchone()[0]
+        number_games_1 += 1 #increases games by 1
+        mycursor.execute(number_games_query_2)
+        number_games_2 = mycursor.fetchone()[0]
+        number_games_2 += 1 #increase games by 1
+        update_games_query_1 = "UPDATE %s SET games = %s WHERE school_name = '%s'" % (school_name, number_games_1, tie_school_1)
+        update_games_query_2 = "UPDATE %s SET games = %s WHERE school_name = '%s'" % (school_name, number_games_2, tie_school_2)
+        mycursor.execute(update_games_query_1)
+        mycursor.execute(update_games_query_2)
 
-    elif win_or_tie == "W" or win_or_tie == "w":
-      win_school = input ("Winning team name: ")
-      lose_school = input ("Losing team name: ")
-      #enter result into match_list table if win
-      str_match_number = str(match_number)
-      #if in school[]
-      match_entry = "INSERT INTO %s (ID, Win_ID, Lose_ID) VALUES (%s, '%s', '%s')" % (match_list_name, str_match_number, win_school, lose_school)
-      mycursor.execute(match_entry)
-      print(mycursor.rowcount, "game/match result recorded")
+        match_added = True #confirms at least one hypothetical match has been added - should probably be enclosed in "try"?
 
-      #update wins/losses in class_ID_school table
-      loss_class_query = "SELECT class FROM %s WHERE school_name = '%s'" % (school_name, lose_school)
-      mycursor.execute(loss_class_query)
-      loss_class = mycursor.fetchone()[0]
-      loss_class = str(loss_class)
-      class_win_column = loss_class + "_wins"
-      number_class_wins_query = "SELECT %s FROM %s WHERE school_name = '%s'" % (class_win_column, school_name, win_school)
-      mycursor.execute(number_class_wins_query)
-      number_class_wins = mycursor.fetchone()[0]
-      number_class_wins = int(number_class_wins)
-      number_class_wins = number_class_wins + 1
-      update_class_wins_query = "UPDATE %s SET %s = %s WHERE school_name = '%s'" % (school_name, class_win_column, number_class_wins, win_school)
-      mycursor.execute(update_class_wins_query)
-      
-      number_wins_query = "SELECT wins FROM %s WHERE school_name = '%s'" % (school_name, win_school)
-      number_losses_query = "SELECT losses FROM %s WHERE school_name = '%s'" % (school_name, lose_school)
-      mycursor.execute(number_wins_query)
-      number_wins = mycursor.fetchone()[0]
-      number_wins += 1 #increase ties by 1
-      mycursor.execute(number_losses_query)
-      number_losses = mycursor.fetchone()[0]
-      number_losses += 1 #increase ties by 1
-      update_wins_query = "UPDATE %s SET wins = %s WHERE school_name = '%s'" % (school_name, number_wins, win_school)
-      update_losses_query = "UPDATE %s SET losses = %s WHERE school_name = '%s'" % (school_name, number_losses, lose_school)
-      mycursor.execute(update_wins_query)
-      mycursor.execute(update_losses_query)
+      elif win_or_tie == "W":
+        win_school = input ("Winning team name: ")
+        lose_school = input ("Losing team name: ")
+        #enter result into match_list table if win
+        str_match_number = str(match_number)
+        #if in school[]
+        match_entry = "INSERT INTO %s (ID, Win_ID, Lose_ID) VALUES (%s, '%s', '%s')" % (match_list_name, str_match_number, win_school, lose_school)
+        mycursor.execute(match_entry)
+        print(mycursor.rowcount, "game/match result recorded")
 
-      number_games_query_1 = "SELECT games from %s WHERE school_name = '%s'" % (school_name, win_school)
-      number_games_query_2 = "SELECT games from %s WHERE school_name = '%s'" % (school_name, lose_school)
-      mycursor.execute(number_games_query_1)
-      number_games_1 = mycursor.fetchone()[0]
-      number_games_1 += 1 #increases games by 1
-      mycursor.execute(number_games_query_2)
-      number_games_2 = mycursor.fetchone()[0]
-      number_games_2 += 1 #increase games by 1
-      update_games_query_1 = "UPDATE %s SET games = %s WHERE school_name = '%s'" % (school_name, number_games_1, win_school)
-      update_games_query_2 = "UPDATE %s SET games = %s WHERE school_name = '%s'" % (school_name, number_games_2, lose_school)
-      mycursor.execute(update_games_query_1)
-      mycursor.execute(update_games_query_2)
+        #update wins/losses in class_ID_school table
+        loss_class_query = "SELECT class FROM %s WHERE school_name = '%s'" % (school_name, lose_school)
+        mycursor.execute(loss_class_query)
+        loss_class = mycursor.fetchone()[0]
+        loss_class = str(loss_class)
+        class_win_column = loss_class + "_wins"
+        number_class_wins_query = "SELECT %s FROM %s WHERE school_name = '%s'" % (class_win_column, school_name, win_school)
+        mycursor.execute(number_class_wins_query)
+        number_class_wins = mycursor.fetchone()[0]
+        number_class_wins = int(number_class_wins)
+        number_class_wins = number_class_wins + 1
+        update_class_wins_query = "UPDATE %s SET %s = %s WHERE school_name = '%s'" % (school_name, class_win_column, number_class_wins, win_school)
+        mycursor.execute(update_class_wins_query)
+        
+        number_wins_query = "SELECT wins FROM %s WHERE school_name = '%s'" % (school_name, win_school)
+        number_losses_query = "SELECT losses FROM %s WHERE school_name = '%s'" % (school_name, lose_school)
+        mycursor.execute(number_wins_query)
+        number_wins = mycursor.fetchone()[0]
+        number_wins += 1 #increase ties by 1
+        mycursor.execute(number_losses_query)
+        number_losses = mycursor.fetchone()[0]
+        number_losses += 1 #increase ties by 1
+        update_wins_query = "UPDATE %s SET wins = %s WHERE school_name = '%s'" % (school_name, number_wins, win_school)
+        update_losses_query = "UPDATE %s SET losses = %s WHERE school_name = '%s'" % (school_name, number_losses, lose_school)
+        mycursor.execute(update_wins_query)
+        mycursor.execute(update_losses_query)
 
-    else:
-      print ("This is not a valid command.")
-    choice = input("Would you like to add another game/match result? Y/N ")
-    if choice == "Y" or choice == "y":
-      match_number += 1
-index_reset()
-add_matches()
-PI_summation()
-TI_summation()
+        number_games_query_1 = "SELECT games from %s WHERE school_name = '%s'" % (school_name, win_school)
+        number_games_query_2 = "SELECT games from %s WHERE school_name = '%s'" % (school_name, lose_school)
+        mycursor.execute(number_games_query_1)
+        number_games_1 = mycursor.fetchone()[0]
+        number_games_1 += 1 #increases games by 1
+        mycursor.execute(number_games_query_2)
+        number_games_2 = mycursor.fetchone()[0]
+        number_games_2 += 1 #increase games by 1
+        update_games_query_1 = "UPDATE %s SET games = %s WHERE school_name = '%s'" % (school_name, number_games_1, win_school)
+        update_games_query_2 = "UPDATE %s SET games = %s WHERE school_name = '%s'" % (school_name, number_games_2, lose_school)
+        mycursor.execute(update_games_query_1)
+        mycursor.execute(update_games_query_2)
 
-#print_match_list()
-#print_school()
+        match_added = True
 
-#drop_temp_match_list_query = "DROP TABLE %s" % (temp_match_list_name)
-#drop_school_query = "DROP TABLE %s" % (school_name)
-#drop_match_list_query = "DROP TABLE %s" % (match_list_name)
-#mycursor.execute(drop_temp_match_list_query)
-#mycursor.execute(drop_school_query)
-#mycursor.execute(drop_match_list_query)
+      else:
+        print ("This is not a valid command.")
+      choice = input("Would you like to add another game/match result? Y/N ").upper()
+      if choice == "Y":
+        match_number += 1
+    if choice == "N":
+      break
+  return match_added
+def display_matches(command, row_count):
+  school_table_query = command
+  mycursor.execute(school_table_query)
+  select_table = mycursor.fetchall()
+  print("\n")
+  print("Rank".ljust(8, " "), end = "")
+  print("School".ljust(18, " "), end = "")
+  print("Class".ljust(10, " "), end = "")
+  print("Region".ljust(10, " "), end = "")
+  print("Wins".ljust(10, " "), end = "")
+  print("Losses".ljust(10, " "), end = "")
+  print("Ties".ljust(10, " "), end = "")
+  print("Games".ljust(10, " "), end = "")
+  print("AA Wins".ljust(10, " "), end = "")
+  print("A Wins".ljust(10, " "), end = "")
+  print("B Wins".ljust(10, " "), end = "")
+  print("C Wins".ljust(10, " "), end = "")
+  print("D Wins".ljust(10, " "), end = "")
+  print("PI".ljust(10, " "), end = "")
+  print("TI".ljust(10, " "))
+  
+  i = 0
+  while i < row_count:
+    single_row = list(select_table[i])
+    print(str(i + 1).ljust(8, " "), end = "")
+    print(str(single_row[1]).ljust(18, " "), end = "")
+    ii = 2
+    while ii < 14:
+      print(str(single_row[ii]).ljust(10, " "), end = "")
+      ii += 1
+    print(str(single_row[14]).ljust(7, " "))
+    i += 1
+  print ("", end = "\n")
+
+add_or_no = add_matches()
+if add_or_no == True:
+  index_reset()
+  PI_summation()
+  TI_summation()
+
+school_class = ["AA", "A", "B", "C", "D"]
+school_region = ["NORTH", "SOUTH"]
+
+while True:
+  user_input = input("""View all schools by typing "all" or by class with "AA", "A", "B", "C", or "D:" """).upper()
+  if user_input == "ALL":
+    mycursor.execute("select count(*) from %s" % (school_name))
+    row_total = mycursor.fetchone()[0]
+    display_matches("SELECT * FROM %s ORDER BY TI DESC" % (school_name), row_total)
+    break
+  elif user_input in school_class:
+    user_input_2 = input("""View all schools in class %s by typing "all" or by region with "North" or "South:" """ % (user_input)).upper()
+    if user_input_2 == "ALL":
+      mycursor.execute("SELECT count(*) FROM %s WHERE class = '%s'" % (school_name, user_input))
+      row_total = mycursor.fetchone()[0]
+      display_matches("SELECT * FROM %s WHERE class = '%s' ORDER BY TI DESC" % (school_name, user_input), row_total)
+      break
+    elif user_input_2 in school_region:
+      mycursor.execute("SELECT count(*) FROM %s WHERE class = '%s' and region = '%s'" % (school_name, user_input, user_input_2))
+      row_total = mycursor.fetchone()[0]
+      display_matches("SELECT * FROM %s WHERE class = '%s' and region = '%s' ORDER BY TI DESC" % (school_name, user_input, user_input_2), row_total)
+      break
+    
+drop_temp_match_list_query = "DROP TABLE %s" % (temp_match_list_name)
+drop_school_query = "DROP TABLE %s" % (school_name)
+drop_match_list_query = "DROP TABLE %s" % (match_list_name)
+mycursor.execute(drop_temp_match_list_query)
+mycursor.execute(drop_school_query)
+mycursor.execute(drop_match_list_query)
 mydb.close
 
-#update user_ID_school with wins, losses, ties, and class wins
+#HIGH PRIORITY - Add input sanitization to ensure that school names actually exist before entering match data
+
+#add view wins/losses for specific school?
+#show class of specific school by doing .join with class of each school with result table
+#allow comparison of specific schools using string cocentanation (addition)
