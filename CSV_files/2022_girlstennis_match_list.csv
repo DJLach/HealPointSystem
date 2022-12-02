@@ -1,448 +1,448 @@
-ID,Win_ID,Lose_ID,Tie_ID_1,Tie_ID_2
-1,Brunswick,Camden,,
-2,Brunswick,Edward Little,,
-3,Brunswick,Freeport,,
-4,Brunswick,Mt. Ararat,,
-5,Brunswick,Morse,,
-6,Brunswick,Freeport,,
-7,Brunswick,Mt. Blue,,
-8,Brunswick,Edward Little,,
-9,Brunswick,Mt. Ararat,,
-10,Brunswick,Camden,,
-11,Brunswick,Lewiston,,
-12,Hampden,Bangor,,
-13,Hampden,Brewer,,
-14,Hampden,John Bapst,,
-15,Hampden,Skowhegan,,
-16,Hampden,Hermon,,
-17,Hampden,Brewer,,
-18,Hampden,Bangor,,
-19,Hampden,Skowhegan,,
-20,Hampden,John Bapst,,
-21,Camden,Medomak,,
-22,Camden,Mt. Ararat,,
-23,Camden,Oceanside,,
-24,Camden,Mt. Blue,,
-25,Camden,Lewiston,,
-26,Camden,Belfast,,
-27,Camden,Mt. Ararat,,
-28,Camden,Edward Little,,
-29,Camden,Medomak,,
-30,Mt. Blue,Edward Little,,
-31,Mt. Blue,Lewiston,,
-32,Mt. Blue,Skowhegan,,
-33,Mt. Blue,Waterville,,
-34,Mt. Blue,Oxford Hills,,
-35,Mt. Blue,Messalonskee,,
-36,Mt. Blue,Skowhegan,,
-37,Mt. Blue,Lewiston,,
-38,Mt. Blue,Edward Little,,
-39,Messalonskee,Cony,,
-40,Messalonskee,Waterville,,
-41,Messalonskee,Mt. Ararat,,
-42,Messalonskee,Winslow,,
-43,Messalonskee,Mt. Blue,,
-44,Messalonskee,Oxford Hills,,
-45,Messalonskee,Lewiston,,
-46,Messalonskee,Skowhegan,,
-47,Messalonskee,Skowhegan,,
-48,Brewer,Skowhegan,,
-49,Brewer,Bangor,,
-50,Brewer,Belfast,,
-51,Brewer,Skowhegan,,
-52,Brewer,Belfast,,
-53,Brewer,Bangor,,
-54,Lewiston,Oxford Hills,,
-55,Lewiston,Mt. Ararat,,
-56,Lewiston,Edward Little,,
-57,Lewiston,Mt. Ararat,,
-58,Lewiston,Oxford Hills,,
-59,Edward Little,Oxford Hills,,
-60,Edward Little,Lewiston,,
-61,Edward Little,Morse,,
-62,Edward Little,Mt. Ararat,,
-63,Bangor,Skowhegan,,
-64,Bangor,Skowhegan,,
-65,Mt. Ararat,Oxford Hills,,
-66,Mt. Ararat,Morse,,
-67,Skowhegan,Winslow,,
-68,Kennebunk,Portland,,
-69,Kennebunk,Falmouth,,
-70,Kennebunk,Cheverus,,
-71,Kennebunk,Sanford,,
-72,Kennebunk,Biddeford,,
-73,Kennebunk,Windham,,
-74,Kennebunk,South Portland,,
-75,Kennebunk,Marshwood,,
-76,Kennebunk,Gorham,,
-77,Kennebunk,Deering,,
-78,Kennebunk,Thornton,,
-79,Kennebunk,Bonny Eagle,,
-80,Scarborough,South Portland,,
-81,Scarborough,Gorham,,
-82,Scarborough,Westbrook,,
-83,Scarborough,Marshwood,,
-84,Scarborough,Falmouth,,
-85,Scarborough,Bonny Eagle,,
-86,Scarborough,Deering,,
-87,Scarborough,Cheverus,,
-88,Scarborough,Windham,,
-89,Scarborough,Portland,,
-90,Scarborough,Sanford,,
-91,Scarborough,Biddeford,,
-92,Falmouth,Marshwood,,
-93,Falmouth,Bonny Eagle,,
-94,Falmouth,South Portland,,
-95,Falmouth,Portland,,
-96,Falmouth,Thornton,,
-97,Falmouth,Westbrook,,
-98,Falmouth,Windham,,
-99,Falmouth,Gorham,,
-100,Falmouth,Deering,,
-101,Falmouth,Cheverus,,
-102,Thornton,Westbrook,,
-103,Thornton,Deering,,
-104,Thornton,Cheverus,,
-105,Thornton,Portland,,
-106,Thornton,Sanford,,
-107,Thornton,Biddeford,,
-108,Thornton,Marshwood,,
-109,Thornton,Gorham,,
-110,Thornton,Bonny Eagle,,
-111,Windham,South Portland,,
-112,Windham,Thornton,,
-113,Windham,Bonny Eagle,,
-114,Windham,Westbrook,,
-115,Windham,Sanford,,
-116,Windham,Gorham,,
-117,Windham,Deering,,
-118,Windham,Portland,,
-119,Cheverus,Biddeford,,
-120,Cheverus,Marshwood,,
-121,Cheverus,Bonny Eagle,,
-122,Cheverus,Deering,,
-123,Cheverus,South Portland,,
-124,Cheverus,Sanford,,
-125,Cheverus,Westbrook,,
-126,Cheverus,Windham,,
-127,Gorham,South Portland,,
-128,Gorham,Sanford,,
-129,Gorham,Biddeford,,
-130,Gorham,Westbrook,,
-131,Gorham,Marshwood,,
-132,Gorham,Portland,,
-133,Gorham,Deering,,
-134,Bonny Eagle,Westbrook,,
-135,Bonny Eagle,Deering,,
-136,Bonny Eagle,Portland,,
-137,Bonny Eagle,Sanford,,
-138,Bonny Eagle,Biddeford,,
-139,Bonny Eagle,Marshwood,,
-140,Marshwood,Deering,,
-141,Marshwood,Portland,,
-142,Marshwood,Sanford,,
-143,Marshwood,Biddeford,,
-144,Marshwood,South Portland,,
-145,South Portland,Deering,,
-146,South Portland,Portland,,
-147,South Portland,Sanford,,
-148,South Portland,Westbrook,,
-149,South Portland,Biddeford,,
-150,Portland,Biddeford,,
-151,Portland,Westbrook,,
-152,Biddeford,Deering,,
-153,Biddeford,Sanford,,
-154,Biddeford,Westbrook,,
-155,Sanford,Portland,,
-156,Sanford,Westbrook,,
-157,Deering,Westbrook,,
-158,Foxcroft,Old Town,,
-159,Foxcroft,MCI,,
-160,Foxcroft,Dexter,,
-161,Foxcroft,Hermon,,
-162,Foxcroft,Piscataquis,,
-163,Foxcroft,Old Town,,
-164,Foxcroft,Piscataquis,,
-165,Foxcroft,Hampden,,
-166,Foxcroft,Dexter,,
-167,Caribou,Hermon,,
-168,Caribou,Hermon,,
-169,Caribou,Houlton,,
-170,Caribou,Presque Isle,,
-171,Caribou,Madawaska,,
-172,Caribou,Presque Isle,,
-173,Caribou,Houlton,,
-174,Caribou,Fort Kent,,
-175,Caribou,Fort Kent,,
-176,Caribou,Madawaska,,
-177,John Bapst,Old Town,,
-178,John Bapst,Hermon,,
-179,John Bapst,Bangor,,
-180,John Bapst,Presque Isle,,
-181,John Bapst,Presque Isle,,
-182,John Bapst,Old Town,,
-183,John Bapst,Hermon,,
-184,John Bapst,Caribou,,
-185,John Bapst,Caribou,,
-186,John Bapst,Bangor,,
-187,Ellsworth,Bangor,,
-188,Ellsworth,Belfast,,
-189,Ellsworth,Belfast,,
-190,Ellsworth,Hampden,,
-191,Ellsworth,Washington,,
-192,Ellsworth,Bangor,,
-193,Ellsworth,Hermon,,
-194,Ellsworth,Hampden,,
-195,MDI,Old Town,,
-196,MDI,Brewer,,
-197,MDI,Belfast,,
-198,MDI,Bangor,,
-199,MDI,Bangor,,
-200,MDI,Ellsworth,,
-201,MDI,Belfast,,
-202,MDI,Old Town,,
-203,MDI,Brewer,,
-204,MDI,Ellsworth,,
-205,Waterville,Belfast,,
-206,Waterville,Medomak,,
-207,Waterville,Erskine,,
-208,Waterville,Skowhegan,,
-209,Waterville,Winslow,,
-210,Waterville,Cony,,
-211,Waterville,Winslow,,
-212,Waterville,Messalonskee,,
-213,Hermon,Old Town,,
-214,Hermon,Ellsworth,,
-215,Hermon,Presque Isle,,
-216,Hermon,Presque Isle,,
-217,Hermon,Old Town,,
-218,Presque Isle,Madawaska,,
-219,Presque Isle,Houlton,,
-220,Presque Isle,Fort Kent,,
-221,Presque Isle,Madawaska,,
-222,Presque Isle,Houlton,,
-223,Belfast,Oceanside,,
-224,Belfast,Oceanside,,
-225,Winslow,Oceanside,,
-226,Lincoln,Medomak,,
-227,Lincoln,Maranacook,,
-228,Lincoln,Gardiner,,
-229,Lincoln,Morse,,
-230,Lincoln,Brunswick,,
-231,Lincoln,Erskine,,
-232,Lincoln,Camden,,
-233,Lincoln,Oceanside,,
-234,Lincoln,Medomak,,
-235,Lincoln,Oceanside,,
-236,Lincoln,Gardiner,,
-237,Lincoln,Morse,,
-238,Cape Elizabeth,Waynflete,,
-239,Cape Elizabeth,Yarmouth,,
-240,Cape Elizabeth,Greely,,
-241,Cape Elizabeth,Lake Region,,
-242,Cape Elizabeth,Lake Region,,
-243,Cape Elizabeth,York,,
-244,Cape Elizabeth,Freeport,,
-245,Cape Elizabeth,Yarmouth,,
-246,Cape Elizabeth,North Yarmouth,,
-247,Cape Elizabeth,Oxford Hills,,
-248,Cape Elizabeth,Greely,,
-249,Greely,York,,
-250,Greely,Waynflete,,
-251,Greely,Freeport,,
-252,Greely,North Yarmouth,,
-253,Greely,Yarmouth,,
-254,Greely,Lake Region,,
-255,Greely,Yarmouth,,
-256,Greely,York,,
-257,Greely,Freeport,,
-258,Yarmouth,York,,
-259,Yarmouth,Waynflete,,
-260,Yarmouth,Freeport,,
-261,Yarmouth,Waynflete,,
-262,Yarmouth,North Yarmouth,,
-263,Yarmouth,Lake Region,,
-264,Yarmouth,North Yarmouth,,
-265,Yarmouth,York,,
-266,Erskine,Winslow,,
-267,Erskine,Gardiner,,
-268,Erskine,Oceanside,,
-269,Erskine,Cony,,
-270,Erskine,Messalonskee,,
-271,Erskine,Cony,,
-272,Erskine,Morse,,
-273,Erskine,Gardiner,,
-274,Freeport,Mt. Ararat,,
-275,Freeport,North Yarmouth,,
-276,Freeport,York,,
-277,Freeport,Lake Region,,
-278,Freeport,Mt. Ararat,,
-279,Cony,Winslow,,
-280,Cony,Edward Little,,
-281,Cony,Gardiner,,
-282,Cony,Oxford Hills,,
-283,Medomak,Oceanside,,
-284,Medomak,Morse,,
-285,Medomak,Cony,,
-286,Medomak,Morse,,
-287,Medomak,Belfast,,
-288,Medomak,Winslow,,
-289,Medomak,Oceanside,,
-290,York,North Yarmouth,,
-291,York,North Yarmouth,,
-292,York,Lake Region,,
-293,York,Lake Region,,
-294,Gardiner,Morse,,
-295,Gardiner,Winslow,,
-296,Gardiner,Oceanside,,
-297,Gardiner,Morse,,
-298,Lake Region,Oxford Hills,,
-299,Morse,Oceanside,,
-300,Washington,Old Town,,
-301,Washington,Brewer,,
-302,Washington,Ellsworth,,
-303,Washington,MDI,,
-304,Washington,Foxcroft,,
-305,Washington,MDI,,
-306,Washington,Calais,,
-307,Washington,Old Town,,
-308,Washington,Brewer,,
-309,Washington,Foxcroft,,
-310,MCI,Waterville,,
-311,MCI,Piscataquis,,
-312,MCI,Cony,,
-313,MCI,Piscataquis,,
-314,MCI,Winslow,,
-315,MCI,Erskine,,
-316,MCI,George Stevens,,
-317,MCI,Foxcroft,,
-318,MCI,Winslow,,
-319,MCI,Belfast,,
-320,MCI,George Stevens,,
-321,Orono,Penobscot,,
-322,Orono,Mattanawcook,,
-323,Orono,Piscataquis,,
-324,Orono,Old Town,,
-325,Orono,Dexter,,
-326,Orono,Mattanawcook,,
-327,Orono,Piscataquis,,
-328,Orono,Old Town,,
-329,Orono,Penobscot,,
-330,Orono,George Stevens,,
-331,Orono,Dexter,,
-332,George Stevens,Deer Isle,,
-333,George Stevens,Deer Isle,,
-334,George Stevens,Van Buren/Wisdom,,
-335,George Stevens,Van Buren/Wisdom,,
-336,George Stevens,Calais,,
-337,George Stevens,Calais,,
-338,George Stevens,Orono,,
-339,George Stevens,Mattanawcook,,
-340,Fort Kent,Houlton,,
-341,Fort Kent,Presque Isle,,
-342,Fort Kent,Van Buren/Wisdom,,
-343,Fort Kent,Van Buren/Wisdom,,
-344,Fort Kent,Madawaska,,
-345,Fort Kent,Madawaska,,
-346,Fort Kent,Houlton,,
-347,Piscataquis,Mattanawcook,,
-348,Piscataquis,Dexter,,
-349,Piscataquis,Penobscot,,
-350,Piscataquis,Dexter,,
-351,Piscataquis,Mattanawcook,,
-352,Piscataquis,Penobscot,,
-353,Calais,Woodland,,
-354,Calais,Mattanawcook,,
-355,Calais,Washington,,
-356,Calais,Deer Isle,,
-357,Calais,Deer Isle,,
-358,Calais,Woodland,,
-359,Mattanawcook,Penobscot,,
-360,Mattanawcook,George Stevens,,
-361,Mattanawcook,Schenck/Stearns,,
-362,Mattanawcook,Calais,,
-363,Mattanawcook,Schenck/Stearns,,
-364,Mattanawcook,Penobscot,,
-365,Dexter,Penobscot,,
-366,Dexter,Deer Isle,,
-367,Dexter,Penobscot,,
-368,Dexter,Deer Isle,,
-369,Dexter,Schenck/Stearns,,
-370,Dexter,Schenck/Stearns,,
-371,Van Buren/Wisdom,Schenck/Stearns,,
-372,Van Buren/Wisdom,Madawaska,,
-373,Van Buren/Wisdom,Madawaska,,
-374,Van Buren/Wisdom,Houlton,,
-375,Van Buren/Wisdom,Houlton,,
-376,Schenck/Stearns,Van Buren/Wisdom,,
-377,Schenck/Stearns,Penobscot,,
-378,Penobscot,Deer Isle,,
-379,Penobscot,Deer Isle,,
-380,Penobscot,Schenck/Stearns,,
-381,Houlton,Schenck/Stearns,,
-382,Houlton,Schenck/Stearns,,
-383,Houlton,Madawaska,,
-384,Houlton,Madawaska,,
-385,Deer Isle,Woodland,,
-386,Deer Isle,Woodland,,
-387,Hall-Dale,Winthrop,,
-388,Hall-Dale,Boothbay,,
-389,Hall-Dale,Oak Hill,,
-390,Hall-Dale,Mountain Valley,,
-391,Hall-Dale,Dirigo,,
-392,Hall-Dale,Winthrop,,
-393,Hall-Dale,Madison,,
-394,Hall-Dale,Boothbay,,
-395,Spruce Mountain,Madison,,
-396,Spruce Mountain,Hall-Dale,,
-397,Spruce Mountain,Mountain Valley,,
-398,Spruce Mountain,Oak Hill,,
-399,Spruce Mountain,Dirigo,,
-400,Spruce Mountain,Dirigo,,
-401,Spruce Mountain,Madison,,
-402,Spruce Mountain,Hall-Dale,,
-403,Maranacook,Erskine,,
-404,Maranacook,Oceanside,,
-405,Maranacook,Oxford Hills,,
-406,Maranacook,Edward Little,,
-407,Maranacook,Gardiner,,
-408,Maranacook,Cony,,
-409,Maranacook,Gardiner,,
-410,Maranacook,Waterville,,
-411,Maranacook,Lewiston,,
-412,Maranacook,Oxford Hills,,
-413,Maranacook,Winslow,,
-414,Waynflete,North Yarmouth,,
-415,Waynflete,Lake Region,,
-416,Waynflete,Greely,,
-417,Waynflete,York,,
-418,Waynflete,Freeport,,
-419,Waynflete,York,,
-420,Waynflete,Cape Elizabeth,,
-421,Waynflete,North Yarmouth,,
-422,Winthrop,Spruce Mountain,,
-423,Winthrop,Dirigo,,
-424,Winthrop,Madison,,
-425,Winthrop,Oak Hill,,
-426,Winthrop,Mountain Valley,,
-427,Winthrop,Madison,,
-428,Boothbay,Oak Hill,,
-429,Boothbay,Mountain Valley,,
-430,Boothbay,Spruce Mountain,,
-431,Boothbay,Dirigo,,
-432,Boothbay,Madison,,
-433,Boothbay,Oak Hill,,
-434,Dirigo,Oak Hill,,
-435,Dirigo,Mountain Valley,,
-436,Dirigo,Oak Hill,,
-437,Dirigo,Boothbay,,
-438,Madison,Mountain Valley,,
-439,Madison,Dirigo,,
-440,Madison,Mountain Valley,,
-441,Madison,Oak Hill,,
-442,Mountain Valley,Winthrop,,
-443,Mountain Valley,Oak Hill,,
-444,North Yarmouth,Lake Region,,
-445,North Yarmouth,Morse,,
-446,North Yarmouth,Lake Region,,
-447,Oak Hill,Mountain Valley,,
+ID,Win_ID,Lose_ID,Tie_ID_1,Tie_ID_2,Score_1,Score_2
+1,Brunswick,Camden,,,5,0
+2,Brunswick,Edward Little,,,5,0
+3,Brunswick,Freeport,,,4,1
+4,Brunswick,Mt. Ararat,,,5,0
+5,Brunswick,Morse,,,5,0
+6,Brunswick,Freeport,,,5,0
+7,Brunswick,Mt. Blue,,,4,1
+8,Brunswick,Edward Little,,,5,0
+9,Brunswick,Mt. Ararat,,,5,0
+10,Brunswick,Camden,,,4,1
+11,Brunswick,Lewiston,,,4,1
+12,Hampden,Bangor,,,5,0
+13,Hampden,Brewer,,,4,1
+14,Hampden,John Bapst,,,4,1
+15,Hampden,Skowhegan,,,4,1
+16,Hampden,Hermon,,,3,2
+17,Hampden,Brewer,,,4,1
+18,Hampden,Bangor,,,5,0
+19,Hampden,Skowhegan,,,3,2
+20,Hampden,John Bapst,,,4,1
+21,Camden,Medomak,,,5,0
+22,Camden,Mt. Ararat,,,5,0
+23,Camden,Oceanside,,,5,0
+24,Camden,Mt. Blue,,,4,1
+25,Camden,Lewiston,,,5,0
+26,Camden,Belfast,,,5,0
+27,Camden,Mt. Ararat,,,3,2
+28,Camden,Edward Little,,,4,1
+29,Camden,Medomak,,,4,1
+30,Mt. Blue,Edward Little,,,3,2
+31,Mt. Blue,Lewiston,,,4,1
+32,Mt. Blue,Skowhegan,,,3,2
+33,Mt. Blue,Waterville,,,3,2
+34,Mt. Blue,Oxford Hills,,,5,0
+35,Mt. Blue,Messalonskee,,,3,2
+36,Mt. Blue,Skowhegan,,,4,1
+37,Mt. Blue,Lewiston,,,3,2
+38,Mt. Blue,Edward Little,,,3,2
+39,Messalonskee,Cony,,,4,1
+40,Messalonskee,Waterville,,,3,2
+41,Messalonskee,Mt. Ararat,,,5,0
+42,Messalonskee,Winslow,,,5,0
+43,Messalonskee,Mt. Blue,,,5,0
+44,Messalonskee,Oxford Hills,,,5,0
+45,Messalonskee,Lewiston,,,5,0
+46,Messalonskee,Skowhegan,,,5,0
+47,Messalonskee,Skowhegan,,,3,1
+48,Brewer,Skowhegan,,,4,1
+49,Brewer,Bangor,,,3,2
+50,Brewer,Belfast,,,5,0
+51,Brewer,Skowhegan,,,5,0
+52,Brewer,Belfast,,,5,0
+53,Brewer,Bangor,,,3,2
+54,Lewiston,Oxford Hills,,,5,0
+55,Lewiston,Mt. Ararat,,,3,2
+56,Lewiston,Edward Little,,,3,2
+57,Lewiston,Mt. Ararat,,,3,2
+58,Lewiston,Oxford Hills,,,3,2
+59,Edward Little,Oxford Hills,,,5,0
+60,Edward Little,Lewiston,,,4,1
+61,Edward Little,Morse,,,4,1
+62,Edward Little,Mt. Ararat,,,4,1
+63,Bangor,Skowhegan,,,4,1
+64,Bangor,Skowhegan,,,3,2
+65,Mt. Ararat,Oxford Hills,,,5,0
+66,Mt. Ararat,Morse,,,4,1
+67,Skowhegan,Winslow,,,4,1
+68,Kennebunk,Portland,,,5,0
+69,Kennebunk,Falmouth,,,3,2
+70,Kennebunk,Cheverus,,,5,0
+71,Kennebunk,Sanford,,,5,0
+72,Kennebunk,Biddeford,,,5,0
+73,Kennebunk,Windham,,,5,0
+74,Kennebunk,South Portland,,,5,0
+75,Kennebunk,Marshwood,,,5,0
+76,Kennebunk,Gorham,,,5,0
+77,Kennebunk,Deering,,,5,0
+78,Kennebunk,Thornton,,,5,0
+79,Kennebunk,Bonny Eagle,,,5,0
+80,Scarborough,South Portland,,,5,0
+81,Scarborough,Gorham,,,3,2
+82,Scarborough,Westbrook,,,5,0
+83,Scarborough,Marshwood,,,5,0
+84,Scarborough,Falmouth,,,3,2
+85,Scarborough,Bonny Eagle,,,4,1
+86,Scarborough,Deering,,,4,1
+87,Scarborough,Cheverus,,,4,1
+88,Scarborough,Windham,,,5,0
+89,Scarborough,Portland,,,4,1
+90,Scarborough,Sanford,,,4,1
+91,Scarborough,Biddeford,,,5,0
+92,Falmouth,Marshwood,,,5,0
+93,Falmouth,Bonny Eagle,,,5,0
+94,Falmouth,South Portland,,,5,0
+95,Falmouth,Portland,,,5,0
+96,Falmouth,Thornton,,,3,2
+97,Falmouth,Westbrook,,,5,0
+98,Falmouth,Windham,,,4,1
+99,Falmouth,Gorham,,,5,0
+100,Falmouth,Deering,,,5,0
+101,Falmouth,Cheverus,,,4,1
+102,Thornton,Westbrook,,,5,0
+103,Thornton,Deering,,,5,0
+104,Thornton,Cheverus,,,4,1
+105,Thornton,Portland,,,5,0
+106,Thornton,Sanford,,,5,0
+107,Thornton,Biddeford,,,5,0
+108,Thornton,Marshwood,,,5,0
+109,Thornton,Gorham,,,4,1
+110,Thornton,Bonny Eagle,,,4,1
+111,Windham,South Portland,,,4,1
+112,Windham,Thornton,,,3,2
+113,Windham,Bonny Eagle,,,4,1
+114,Windham,Westbrook,,,5,0
+115,Windham,Sanford,,,5,0
+116,Windham,Gorham,,,3,2
+117,Windham,Deering,,,5,0
+118,Windham,Portland,,,4,1
+119,Cheverus,Biddeford,,,5,0
+120,Cheverus,Marshwood,,,4,1
+121,Cheverus,Bonny Eagle,,,4,1
+122,Cheverus,Deering,,,4,1
+123,Cheverus,South Portland,,,5,0
+124,Cheverus,Sanford,,,4,1
+125,Cheverus,Westbrook,,,5,0
+126,Cheverus,Windham,,,3,2
+127,Gorham,South Portland,,,5,0
+128,Gorham,Sanford,,,5,0
+129,Gorham,Biddeford,,,5,0
+130,Gorham,Westbrook,,,5,0
+131,Gorham,Marshwood,,,5,0
+132,Gorham,Portland,,,5,0
+133,Gorham,Deering,,,5,0
+134,Bonny Eagle,Westbrook,,,5,0
+135,Bonny Eagle,Deering,,,4,1
+136,Bonny Eagle,Portland,,,3,2
+137,Bonny Eagle,Sanford,,,5,0
+138,Bonny Eagle,Biddeford,,,5,0
+139,Bonny Eagle,Marshwood,,,4,1
+140,Marshwood,Deering,,,5,0
+141,Marshwood,Portland,,,3,2
+142,Marshwood,Sanford,,,3,2
+143,Marshwood,Biddeford,,,4,1
+144,Marshwood,South Portland,,,3,2
+145,South Portland,Deering,,,5,0
+146,South Portland,Portland,,,4,1
+147,South Portland,Sanford,,,3,2
+148,South Portland,Westbrook,,,5,0
+149,South Portland,Biddeford,,,3,2
+150,Portland,Biddeford,,,3,2
+151,Portland,Westbrook,,,5,0
+152,Biddeford,Deering,,,5,0
+153,Biddeford,Sanford,,,4,1
+154,Biddeford,Westbrook,,,5,0
+155,Sanford,Portland,,,3,2
+156,Sanford,Westbrook,,,4,1
+157,Deering,Westbrook,,,5,0
+158,Foxcroft,Old Town,,,5,0
+159,Foxcroft,MCI,,,3,2
+160,Foxcroft,Dexter,,,5,0
+161,Foxcroft,Hermon,,,4,1
+162,Foxcroft,Piscataquis,,,3,2
+163,Foxcroft,Old Town,,,5,0
+164,Foxcroft,Piscataquis,,,4,1
+165,Foxcroft,Hampden,,,4,1
+166,Foxcroft,Dexter,,,5,0
+167,Caribou,Hermon,,,3,2
+168,Caribou,Hermon,,,3,2
+169,Caribou,Houlton,,,4,1
+170,Caribou,Presque Isle,,,3,2
+171,Caribou,Madawaska,,,5,0
+172,Caribou,Presque Isle,,,5,0
+173,Caribou,Houlton,,,4,1
+174,Caribou,Fort Kent,,,3,2
+175,Caribou,Fort Kent,,,4,1
+176,Caribou,Madawaska,,,5,0
+177,John Bapst,Old Town,,,3,2
+178,John Bapst,Hermon,,,3,2
+179,John Bapst,Bangor,,,5,0
+180,John Bapst,Presque Isle,,,4,1
+181,John Bapst,Presque Isle,,,4,1
+182,John Bapst,Old Town,,,3,2
+183,John Bapst,Hermon,,,3,2
+184,John Bapst,Caribou,,,3,2
+185,John Bapst,Caribou,,,3,2
+186,John Bapst,Bangor,,,4,1
+187,Ellsworth,Bangor,,,4,1
+188,Ellsworth,Belfast,,,5,0
+189,Ellsworth,Belfast,,,5,0
+190,Ellsworth,Hampden,,,3,2
+191,Ellsworth,Washington,,,3,2
+192,Ellsworth,Bangor,,,4,1
+193,Ellsworth,Hermon,,,4,1
+194,Ellsworth,Hampden,,,4,1
+195,MDI,Old Town,,,3,2
+196,MDI,Brewer,,,3,2
+197,MDI,Belfast,,,5,0
+198,MDI,Bangor,,,5,0
+199,MDI,Bangor,,,5,0
+200,MDI,Ellsworth,,,3,2
+201,MDI,Belfast,,,4,1
+202,MDI,Old Town,,,4,1
+203,MDI,Brewer,,,3,2
+204,MDI,Ellsworth,,,3,2
+205,Waterville,Belfast,,,5,0
+206,Waterville,Medomak,,,5,0
+207,Waterville,Erskine,,,3,2
+208,Waterville,Skowhegan,,,4,1
+209,Waterville,Winslow,,,5,0
+210,Waterville,Cony,,,4,1
+211,Waterville,Winslow,,,4,1
+212,Waterville,Messalonskee,,,3,2
+213,Hermon,Old Town,,,3,2
+214,Hermon,Ellsworth,,,3,2
+215,Hermon,Presque Isle,,,3,2
+216,Hermon,Presque Isle,,,4,1
+217,Hermon,Old Town,,,3,2
+218,Presque Isle,Madawaska,,,5,0
+219,Presque Isle,Houlton,,,4,1
+220,Presque Isle,Fort Kent,,,3,0
+221,Presque Isle,Madawaska,,,5,0
+222,Presque Isle,Houlton,,,4,1
+223,Belfast,Oceanside,,,4,1
+224,Belfast,Oceanside,,,3,2
+225,Winslow,Oceanside,,,5,0
+226,Lincoln,Medomak,,,5,0
+227,Lincoln,Maranacook,,,3,2
+228,Lincoln,Gardiner,,,4,1
+229,Lincoln,Morse,,,5,0
+230,Lincoln,Brunswick,,,4,1
+231,Lincoln,Erskine,,,5,0
+232,Lincoln,Camden,,,4,1
+233,Lincoln,Oceanside,,,4,1
+234,Lincoln,Medomak,,,4,1
+235,Lincoln,Oceanside,,,5,0
+236,Lincoln,Gardiner,,,4,1
+237,Lincoln,Morse,,,5,0
+238,Cape Elizabeth,Waynflete,,,4,1
+239,Cape Elizabeth,Yarmouth,,,4,1
+240,Cape Elizabeth,Greely,,,4,1
+241,Cape Elizabeth,Lake Region,,,5,0
+242,Cape Elizabeth,Lake Region,,,5,0
+243,Cape Elizabeth,York,,,5,0
+244,Cape Elizabeth,Freeport,,,4,1
+245,Cape Elizabeth,Yarmouth,,,4,1
+246,Cape Elizabeth,North Yarmouth,,,5,0
+247,Cape Elizabeth,Oxford Hills,,,5,0
+248,Cape Elizabeth,Greely,,,4,1
+249,Greely,York,,,5,0
+250,Greely,Waynflete,,,4,1
+251,Greely,Freeport,,,4,1
+252,Greely,North Yarmouth,,,5,0
+253,Greely,Yarmouth,,,5,0
+254,Greely,Lake Region,,,5,0
+255,Greely,Yarmouth,,,5,0
+256,Greely,York,,,3,2
+257,Greely,Freeport,,,5,0
+258,Yarmouth,York,,,4,1
+259,Yarmouth,Waynflete,,,3,2
+260,Yarmouth,Freeport,,,4,1
+261,Yarmouth,Waynflete,,,3,2
+262,Yarmouth,North Yarmouth,,,4,1
+263,Yarmouth,Lake Region,,,5,0
+264,Yarmouth,North Yarmouth,,,5,0
+265,Yarmouth,York,,,3,2
+266,Erskine,Winslow,,,5,0
+267,Erskine,Gardiner,,,4,1
+268,Erskine,Oceanside,,,5,0
+269,Erskine,Cony,,,4,1
+270,Erskine,Messalonskee,,,3,2
+271,Erskine,Cony,,,4,1
+272,Erskine,Morse,,,5,0
+273,Erskine,Gardiner,,,4,1
+274,Freeport,Mt. Ararat,,,5,0
+275,Freeport,North Yarmouth,,,4,1
+276,Freeport,York,,,3,2
+277,Freeport,Lake Region,,,4,1
+278,Freeport,Mt. Ararat,,,5,0
+279,Cony,Winslow,,,3,2
+280,Cony,Edward Little,,,4,1
+281,Cony,Gardiner,,,3,2
+282,Cony,Oxford Hills,,,3,2
+283,Medomak,Oceanside,,,3,2
+284,Medomak,Morse,,,3,2
+285,Medomak,Cony,,,4,1
+286,Medomak,Morse,,,4,1
+287,Medomak,Belfast,,,5,0
+288,Medomak,Winslow,,,4,1
+289,Medomak,Oceanside,,,5,0
+290,York,North Yarmouth,,,3,2
+291,York,North Yarmouth,,,4,1
+292,York,Lake Region,,,5,0
+293,York,Lake Region,,,5,0
+294,Gardiner,Morse,,,3,2
+295,Gardiner,Winslow,,,5,0
+296,Gardiner,Oceanside,,,4,1
+297,Gardiner,Morse,,,3,2
+298,Lake Region,Oxford Hills,,,4,1
+299,Morse,Oceanside,,,4,1
+300,Washington,Old Town,,,4,1
+301,Washington,Brewer,,,4,1
+302,Washington,Ellsworth,,,3,2
+303,Washington,MDI,,,4,1
+304,Washington,Foxcroft,,,3,2
+305,Washington,MDI,,,3,2
+306,Washington,Calais,,,4,1
+307,Washington,Old Town,,,4,1
+308,Washington,Brewer,,,3,2
+309,Washington,Foxcroft,,,3,2
+310,MCI,Waterville,,,3,2
+311,MCI,Piscataquis,,,3,2
+312,MCI,Cony,,,5,0
+313,MCI,Piscataquis,,,5,0
+314,MCI,Winslow,,,5,0
+315,MCI,Erskine,,,5,0
+316,MCI,George Stevens,,,4,1
+317,MCI,Foxcroft,,,4,1
+318,MCI,Winslow,,,5,0
+319,MCI,Belfast,,,5,0
+320,MCI,George Stevens,,,5,0
+321,Orono,Penobscot,,,4,1
+322,Orono,Mattanawcook,,,4,1
+323,Orono,Piscataquis,,,3,2
+324,Orono,Old Town,,,4,1
+325,Orono,Dexter,,,4,1
+326,Orono,Mattanawcook,,,4,1
+327,Orono,Piscataquis,,,3,2
+328,Orono,Old Town,,,5,0
+329,Orono,Penobscot,,,5,0
+330,Orono,George Stevens,,,3,2
+331,Orono,Dexter,,,4,1
+332,George Stevens,Deer Isle,,,5,0
+333,George Stevens,Deer Isle,,,5,0
+334,George Stevens,Van Buren/Wisdom,,,5,0
+335,George Stevens,Van Buren/Wisdom,,,5,0
+336,George Stevens,Calais,,,3,2
+337,George Stevens,Calais,,,3,2
+338,George Stevens,Orono,,,3,2
+339,George Stevens,Mattanawcook,,,4,1
+340,Fort Kent,Houlton,,,5,0
+341,Fort Kent,Presque Isle,,,3,2
+342,Fort Kent,Van Buren/Wisdom,,,3,2
+343,Fort Kent,Van Buren/Wisdom,,,4,1
+344,Fort Kent,Madawaska,,,5,0
+345,Fort Kent,Madawaska,,,5,0
+346,Fort Kent,Houlton,,,4,0
+347,Piscataquis,Mattanawcook,,,5,0
+348,Piscataquis,Dexter,,,4,1
+349,Piscataquis,Penobscot,,,5,0
+350,Piscataquis,Dexter,,,4,1
+351,Piscataquis,Mattanawcook,,,4,1
+352,Piscataquis,Penobscot,,,5,0
+353,Calais,Woodland,,,5,0
+354,Calais,Mattanawcook,,,3,2
+355,Calais,Washington,,,3,2
+356,Calais,Deer Isle,,,5,0
+357,Calais,Deer Isle,,,4,1
+358,Calais,Woodland,,,5,0
+359,Mattanawcook,Penobscot,,,5,0
+360,Mattanawcook,George Stevens,,,3,2
+361,Mattanawcook,Schenck/Stearns,,,5,0
+362,Mattanawcook,Calais,,,3,2
+363,Mattanawcook,Schenck/Stearns,,,5,0
+364,Mattanawcook,Penobscot,,,5,0
+365,Dexter,Penobscot,,,4,1
+366,Dexter,Deer Isle,,,4,1
+367,Dexter,Penobscot,,,4,1
+368,Dexter,Deer Isle,,,4,1
+369,Dexter,Schenck/Stearns,,,3,2
+370,Dexter,Schenck/Stearns,,,4,1
+371,Van Buren/Wisdom,Schenck/Stearns,,,5,0
+372,Van Buren/Wisdom,Madawaska,,,5,0
+373,Van Buren/Wisdom,Madawaska,,,4,1
+374,Van Buren/Wisdom,Houlton,,,3,2
+375,Van Buren/Wisdom,Houlton,,,3,2
+376,Schenck/Stearns,Van Buren/Wisdom,,,3,2
+377,Schenck/Stearns,Penobscot,,,3,2
+378,Penobscot,Deer Isle,,,4,1
+379,Penobscot,Deer Isle,,,4,1
+380,Penobscot,Schenck/Stearns,,,3,2
+381,Houlton,Schenck/Stearns,,,4,1
+382,Houlton,Schenck/Stearns,,,3,2
+383,Houlton,Madawaska,,,5,0
+384,Houlton,Madawaska,,,5,0
+385,Deer Isle,Woodland,,,5,0
+386,Deer Isle,Woodland,,,5,0
+387,Hall-Dale,Winthrop,,,5,0
+388,Hall-Dale,Boothbay,,,3,2
+389,Hall-Dale,Oak Hill,,,5,0
+390,Hall-Dale,Mountain Valley,,,5,0
+391,Hall-Dale,Dirigo,,,4,1
+392,Hall-Dale,Winthrop,,,4,1
+393,Hall-Dale,Madison,,,5,0
+394,Hall-Dale,Boothbay,,,4,1
+395,Spruce Mountain,Madison,,,5,0
+396,Spruce Mountain,Hall-Dale,,,3,2
+397,Spruce Mountain,Mountain Valley,,,5,0
+398,Spruce Mountain,Oak Hill,,,4,1
+399,Spruce Mountain,Dirigo,,,5,0
+400,Spruce Mountain,Dirigo,,,5,0
+401,Spruce Mountain,Madison,,,5,0
+402,Spruce Mountain,Hall-Dale,,,3,2
+403,Maranacook,Erskine,,,3,2
+404,Maranacook,Oceanside,,,5,0
+405,Maranacook,Oxford Hills,,,5,0
+406,Maranacook,Edward Little,,,4,1
+407,Maranacook,Gardiner,,,4,1
+408,Maranacook,Cony,,,4,1
+409,Maranacook,Gardiner,,,4,1
+410,Maranacook,Waterville,,,5,0
+411,Maranacook,Lewiston,,,5,0
+412,Maranacook,Oxford Hills,,,5,0
+413,Maranacook,Winslow,,,5,0
+414,Waynflete,North Yarmouth,,,3,2
+415,Waynflete,Lake Region,,,5,0
+416,Waynflete,Greely,,,3,2
+417,Waynflete,York,,,3,2
+418,Waynflete,Freeport,,,4,1
+419,Waynflete,York,,,4,1
+420,Waynflete,Cape Elizabeth,,,4,1
+421,Waynflete,North Yarmouth,,,5,0
+422,Winthrop,Spruce Mountain,,,3,2
+423,Winthrop,Dirigo,,,5,0
+424,Winthrop,Madison,,,5,0
+425,Winthrop,Oak Hill,,,5,0
+426,Winthrop,Mountain Valley,,,5,0
+427,Winthrop,Madison,,,5,0
+428,Boothbay,Oak Hill,,,3,2
+429,Boothbay,Mountain Valley,,,4,1
+430,Boothbay,Spruce Mountain,,,3,2
+431,Boothbay,Dirigo,,,3,2
+432,Boothbay,Madison,,,4,1
+433,Boothbay,Oak Hill,,,3,2
+434,Dirigo,Oak Hill,,,3,2
+435,Dirigo,Mountain Valley,,,3,2
+436,Dirigo,Oak Hill,,,3,2
+437,Dirigo,Boothbay,,,4,1
+438,Madison,Mountain Valley,,,5,0
+439,Madison,Dirigo,,,3,2
+440,Madison,Mountain Valley,,,3,2
+441,Madison,Oak Hill,,,3,2
+442,Mountain Valley,Winthrop,,,3,2
+443,Mountain Valley,Oak Hill,,,3,2
+444,North Yarmouth,Lake Region,,,5,0
+445,North Yarmouth,Morse,,,4,1
+446,North Yarmouth,Lake Region,,,3,2
+447,Oak Hill,Mountain Valley,,,3,2
