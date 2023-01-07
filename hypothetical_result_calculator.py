@@ -1,4 +1,3 @@
-import decimal
 from decimal import Decimal
 import mysql.connector
 import csv

@@ -64,6 +64,20 @@ def get_D_wins(school_name):
     D_wins = Decimal(D_wins)
     return D_wins
 
+def get_current_wins(school_name):
+    get_wins = "SELECT wins FROM school WHERE school_name = '%s'" % (school_name)
+    mycursor.execute(get_wins)
+    wins = mycursor.fetchone()[0]
+    wins = Decimal(wins)
+    return wins
+
+def get_current_games(school_name):
+    get_games = "SELECT games FROM school WHERE school_name = '%s'" % (school_name)
+    mycursor.execute(get_games)
+    games = mycursor.fetchone()[0]
+    games = Decimal(games)
+    return games
+
 #generate list of all schools/teams in system
 i = 1
 while i <= max_match:
@@ -74,6 +88,7 @@ while i <= max_match:
 SoS_dict = {} #will store SoS values for each school for secondary calculations
 SoS_heal_dict = {} #will store SoS_heal values for each school for secondary calculations
 matches_played_dict = {} #will store matches {school_name : [matches]}
+
 
 for i in range(len(school_names)):
     SoS_points = 0 #initialize variable for raw SoS points (will be divided by games to get SoS)
@@ -98,6 +113,7 @@ for i in range(len(school_names)):
             games_against_dict[win_teams[ii][0]] = 0
             match_duplicate_list.append(win_teams[ii][0]) #adds to list of teams played including duplicates
             win_list.append(win_teams[ii][0]) #adds to list of teams defeated
+
     except:
         pass
     try:
@@ -171,7 +187,7 @@ for i in range(len(school_names)):
         SoS_heal_points = SoS_heal_points + 42 * class_wins_dict[match_duplicate_list[ii]][0] + 40 * class_wins_dict[match_duplicate_list[ii]][1] + 38 * class_wins_dict[match_duplicate_list[ii]][2] + 36 * class_wins_dict[match_duplicate_list[ii]][3] + 34 * class_wins_dict[match_duplicate_list[ii]][4]
     if games > 0:
         SoS = SoS_points / games * 100
-        SoS_heal = SoS_heal_points / games /40 * 100
+        SoS_heal = SoS_heal_points / games / 34 * 100 #/34 because class D is lowest class
     elif games == 0:
         SoS = 0
         SoS_heal = 0
@@ -221,7 +237,7 @@ for i in range(len(school_names)):
     SoS2_combined_dict[current_school] = SoS2_combined
     
     SoS2_heal_combined = (2 * SoS_heal_dict[current_school] + SoS2_heal_dict[current_school]) / 3
-    SoS2_combined_dict[current_school] = SoS2_heal_combined
+    SoS2_heal_combined_dict[current_school] = SoS2_heal_combined
 
     add_SoS2 = "UPDATE school SET SoS2 = %s WHERE school_name = %s"
     add_SoS2_tuple = SoS2_combined, current_school
@@ -230,4 +246,96 @@ for i in range(len(school_names)):
     add_SoS2_heal = "UPDATE school SET SoS2_heal = %s WHERE school_name = %s"
     add_SoS2_heal_tuple = SoS2_heal_combined, current_school
     mycursor.execute(add_SoS2_heal, add_SoS2_heal_tuple)
-print("SoS2 and SoS2_heal updated")
+print("SoS2_combined and SoS2_heal_combined updated")
+
+points_dict = {} #will store individual game/match scores (ex. 5-0 4-1 3-2)
+for i in range(len(school_names)):
+
+    current_school = get_current_school_name(i + 1)
+    total_points = points_for = points_against = 0
+    
+    try:
+        get_w_scores = "SELECT Score_1, Score_2 FROM match_list WHERE win_ID = %s"
+        current_school_tup = current_school,
+        mycursor.execute(get_w_scores, current_school_tup)
+        w_scores = mycursor.fetchall()
+        for ii in range(len(w_scores)):
+            points_for = points_for + w_scores[ii][0]
+            points_against = points_against + w_scores[ii][1]
+        
+    except:
+        pass
+
+    try:
+        get_l_scores = "SELECT Score_1, Score_2 FROM match_list WHERE lose_ID = %s"
+        current_school_tup = current_school,
+        mycursor.execute(get_l_scores, current_school_tup)
+        l_scores = mycursor.fetchall()
+        for ii in range(len(l_scores)):
+            points_for = points_for + l_scores[ii][1] #[0] and [1] needed to be swapped for wins/losses
+            points_against = points_against + l_scores[ii][0]
+    except:
+        pass
+
+    try:
+        get_t_scores = "SELECT Score_1, Score_2 FROM match_list WHERE Tie_ID_1 = %s"
+        current_school_tup = current_school,
+        mycursor.execute(get_t_scores, current_school_tup)
+        t_scores = mycursor.fetchall()
+        for ii in range(len(t_scores)):
+            points_for = points_for + t_scores[ii][1]
+            points_against = points_against + t_scores[ii][0]
+    except:
+        pass
+
+    try:
+        get_t_scores = "SELECT Score_1, Score_2 FROM match_list WHERE Tie_ID_2 = %s"
+        current_school_tup = current_school,
+        mycursor.execute(get_t_scores, current_school_tup)
+        t_scores = mycursor.fetchall()
+        for ii in range(len(t_scores)):
+            points_for = points_for + t_scores[ii][1]
+            points_against = points_against + t_scores[ii][0]
+    except:
+        pass
+    
+    total_points = points_for + points_against
+
+    try:
+        points_ratio = points_for / total_points
+    except ZeroDivisionError:
+        points_ratio = 0
+
+    points_dict[current_school] = [points_for, points_against, total_points, points_ratio] #place values in dict for each school prior to sending to database
+
+    current_wins = get_current_wins(current_school)
+    current_games = get_current_games(current_school)
+    #power ratings is equal to two times a team's wins times its schedule strength plus its point win ratio * schedule strength
+    current_SoS2_heal_combined = Decimal(SoS2_heal_combined_dict[current_school]) #gets finalized 2-layer heal schedule strength value
+    points_win_ratio = Decimal(points_dict[current_school][3])
+    try: 
+        games_win_ratio = current_wins / current_games
+    except: #what is this error type?
+        games__win_ratio = 0
+    try:
+        game_win_percentage = Decimal(current_wins) / Decimal(current_games) * Decimal(100)
+    except:
+        game_win_percentage = 0
+
+    power_rating = (2 * games_win_ratio + 1 * points_win_ratio) * current_SoS2_heal_combined / 3
+
+    add_game_win_percentage = "UPDATE school set GameWP = %s WHERE school_name = %s"
+    game_win_tuple = game_win_percentage, current_school
+    mycursor.execute(add_game_win_percentage, game_win_tuple)
+
+    point_win_percentage = points_win_ratio * 100
+    add_point_win_percentage = "UPDATE school set PointWP = %s WHERE school_name = %s"
+    point_win_tuple = point_win_percentage, current_school
+    mycursor.execute(add_point_win_percentage, point_win_tuple)
+
+    add_power_rating = "UPDATE school SET PowerR = %s WHERE school_name = %s"
+    power_rating_tuple = power_rating, current_school
+    mycursor.execute(add_power_rating, power_rating_tuple)
+    
+
+print("Power rating updated")
