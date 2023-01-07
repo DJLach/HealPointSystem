@@ -1,3 +1,10 @@
+import gspread
+from oauth2client.service_account import ServiceAccountCredentials
+scope = ['https://www.googleapis.com/auth/spreadsheets', 'https://www.googleapis.com/auth/drive.file', 'https://www.googleapis.com/auth/drive']
+creds = ServiceAccountCredentials.from_json_keyfile_name('credentials.json', scope)
+client = gspread.authorize(creds)
+GTennis2022 = client.open('PowerRatings').worksheet('GTennis2022')
+import time
 from decimal import Decimal
 import mysql.connector
 #connect to database
@@ -10,6 +17,9 @@ mycursor = mydb.cursor()
 mydb.autocommit = True
 
 school_names = []
+
+GTennis2022.clear()
+GTennis2022.insert_row(["Rank (within division)", "School Name", "Class", "Region", "Wins", "Losses", "Ties", "Games", "AA Wins", "A Wins", "B Wins", "C Wins", "D Wins", "PI", "TI", "SoS", "SoS_heal", "SoS2", "SoS2_Heal", "GameWP", "PointWP", "GWP_Over_PWP", "PowerR"])
 
 mycursor.execute("SELECT MAX(ID) FROM school")
 max_match = mycursor.fetchone()[0]
@@ -66,9 +76,15 @@ def get_D_wins(school_name):
 
 def get_current_wins(school_name):
     get_wins = "SELECT wins FROM school WHERE school_name = '%s'" % (school_name)
+    get_ties = "SELECT ties FROM school WHERE school_name = '%s'" % (school_name)
     mycursor.execute(get_wins)
     wins = mycursor.fetchone()[0]
     wins = Decimal(wins)
+    #counts each tie as a half win for SoS
+    mycursor.execute(get_ties)
+    ties = mycursor.fetchone()[0]
+    ties = Decimal(ties) / 2
+    wins = wins + ties
     return wins
 
 def get_current_games(school_name):
@@ -333,9 +349,306 @@ for i in range(len(school_names)):
     point_win_tuple = point_win_percentage, current_school
     mycursor.execute(add_point_win_percentage, point_win_tuple)
 
+    #calculate game win percentage over point win percent (difference) to demonstrate "clutch" factor, then send to server
+    GWP_Over_PWP = game_win_percentage - point_win_percentage
+    GWP_Over_PWP_query = "UPDATE school set GWP_Over_PWP = %s WHERE school_name = %s"
+    GWP_Over_PWP_tuple = GWP_Over_PWP, current_school
+    mycursor.execute(GWP_Over_PWP_query, GWP_Over_PWP_tuple)
+
     add_power_rating = "UPDATE school SET PowerR = %s WHERE school_name = %s"
     power_rating_tuple = power_rating, current_school
     mycursor.execute(add_power_rating, power_rating_tuple)
-    
 
-print("Power rating updated")
+school_list_sheet = []
+AA_N_school_list_sheet = []
+A_N_school_list_sheet = []
+B_N_school_list_sheet = []
+C_N_school_list_sheet = []
+D_N_school_list_sheet = []
+AA_S_school_list_sheet = []
+A_S_school_list_sheet = []
+B_S_school_list_sheet = []
+C_S_school_list_sheet = []
+D_S_school_list_sheet = []
+
+row = 1
+for i in range(len(school_names)):
+    row += 1
+    
+    ID_query = "SELECT ID FROM school WHERE school_name = '%s'" % (school_names[i])
+    mycursor.execute(ID_query)
+    ID_sheet = mycursor.fetchone()[0]
+
+    school_name_query = "SELECT school_name FROM school WHERE school_name = '%s'" % (school_names[i])
+    mycursor.execute(school_name_query)
+    school_name_sheet = mycursor.fetchone()[0]
+    
+    class_query = "SELECT class FROM school WHERE school_name = '%s'" % (school_names[i])
+    mycursor.execute(class_query)
+    class_sheet = mycursor.fetchone()[0]
+
+    region_query = "SELECT region FROM school WHERE school_name = '%s'" % (school_names[i])
+    mycursor.execute(region_query)
+    region_sheet = mycursor.fetchone()[0]
+
+    wins_query = "SELECT wins FROM school WHERE school_name = '%s'" % (school_names[i])
+    mycursor.execute(wins_query)
+    wins_sheet = mycursor.fetchone()[0]
+
+    losses_query = "SELECT losses FROM school WHERE school_name = '%s'" % (school_names[i])
+    mycursor.execute(losses_query)
+    losses_sheet = mycursor.fetchone()[0]
+
+    ties_query = "SELECT ties FROM school WHERE school_name = '%s'" % (school_names[i])
+    mycursor.execute(ties_query)
+    ties_sheet = mycursor.fetchone()[0]
+
+    games_query = "SELECT games FROM school WHERE school_name = '%s'" % (school_names[i])
+    mycursor.execute(games_query)
+    games_sheet = mycursor.fetchone()[0]
+
+    AA_wins_query = "SELECT AA_wins FROM school WHERE school_name = '%s'" % (school_names[i])    
+    mycursor.execute(AA_wins_query)
+    AA_wins_sheet = mycursor.fetchone()[0]
+    AA_wins_sheet = str(AA_wins_sheet)
+
+    A_wins_query = "SELECT A_wins FROM school WHERE school_name = '%s'" % (school_names[i])    
+    mycursor.execute(A_wins_query)
+    A_wins_sheet = mycursor.fetchone()[0]
+    A_wins_sheet = str(A_wins_sheet)
+
+    B_wins_query = "SELECT B_wins FROM school WHERE school_name = '%s'" % (school_names[i])    
+    mycursor.execute(B_wins_query)
+    B_wins_sheet = mycursor.fetchone()[0]
+    B_wins_sheet = str(B_wins_sheet)
+
+    C_wins_query = "SELECT C_wins FROM school WHERE school_name = '%s'" % (school_names[i])    
+    mycursor.execute(C_wins_query)
+    C_wins_sheet = mycursor.fetchone()[0]
+    C_wins_sheet = str(C_wins_sheet)
+
+    D_wins_query = "SELECT D_wins FROM school WHERE school_name = '%s'" % (school_names[i])    
+    mycursor.execute(D_wins_query)
+    D_wins_sheet = mycursor.fetchone()[0]
+    D_wins_sheet = str(D_wins_sheet)
+
+    PI_query = "SELECT PI FROM school WHERE school_name = '%s'" % (school_names[i])    
+    mycursor.execute(PI_query)
+    PI_sheet = mycursor.fetchone()[0]
+
+    TI_query = "SELECT TI FROM school WHERE school_name = '%s'" % (school_names[i])    
+    mycursor.execute(TI_query)
+    TI_sheet = mycursor.fetchone()[0]
+
+    SoS_query = "SELECT SoS FROM school WHERE school_name = '%s'" % (school_names[i])    
+    mycursor.execute(SoS_query)
+    SoS_sheet = mycursor.fetchone()[0]
+
+    SoS_heal_query = "SELECT SoS_heal FROM school WHERE school_name = '%s'" % (school_names[i])    
+    mycursor.execute(SoS_heal_query)
+    SoS_heal_sheet = mycursor.fetchone()[0]
+
+    SoS2_query = "SELECT SoS2 FROM school WHERE school_name = '%s'" % (school_names[i])    
+    mycursor.execute(SoS2_query)
+    SoS2_sheet = mycursor.fetchone()[0]
+
+    SoS2_heal_query = "SELECT SoS2_heal FROM school WHERE school_name = '%s'" % (school_names[i])    
+    mycursor.execute(SoS2_heal_query)
+    SoS2_heal_sheet = mycursor.fetchone()[0]
+
+    GameWP_query = "SELECT GameWP FROM school WHERE school_name = '%s'" % (school_names[i])    
+    mycursor.execute(GameWP_query)
+    GameWP_sheet = mycursor.fetchone()[0]
+
+    PointWP_query = "SELECT PointWP FROM school WHERE school_name = '%s'" % (school_names[i])    
+    mycursor.execute(PointWP_query)
+    PointWP_sheet = mycursor.fetchone()[0]
+
+    GWP_Over_PWP_query = "SELECT GWP_Over_PWP FROM school WHERE school_name = '%s'" % (school_names[i])    
+    mycursor.execute(GWP_Over_PWP_query)
+    GWP_Over_PWP_sheet = mycursor.fetchone()[0]
+
+    PowerR_query = "SELECT PowerR FROM school WHERE school_name = '%s'" % (school_names[i])    
+    mycursor.execute(PowerR_query)
+    PowerR_sheet = mycursor.fetchone()[0]
+    
+    school_row = [school_name_sheet, class_sheet, region_sheet, wins_sheet, losses_sheet, ties_sheet, games_sheet, AA_wins_sheet, A_wins_sheet, B_wins_sheet, C_wins_sheet, D_wins_sheet, PI_sheet, TI_sheet, SoS_sheet, SoS_heal_sheet, SoS2_sheet, SoS2_heal_sheet, GameWP_sheet, PointWP_sheet, GWP_Over_PWP_sheet, PowerR_sheet]
+    
+    school_list_sheet.append(school_row)
+
+    if region_sheet == "North":
+        if class_sheet == "AA":
+            AA_N_school_list_sheet.append(school_row)
+        if class_sheet == "A":
+            A_N_school_list_sheet.append(school_row)
+        if class_sheet == "B":
+            B_N_school_list_sheet.append(school_row)
+        if class_sheet == "C":
+            C_N_school_list_sheet.append(school_row)
+        if class_sheet == "D":
+            D_N_school_list_sheet.append(school_row)
+    if region_sheet == "South":
+        if class_sheet == "AA":
+            AA_S_school_list_sheet.append(school_row)
+        if class_sheet == "A":
+            A_S_school_list_sheet.append(school_row)
+        if class_sheet == "B":
+            B_S_school_list_sheet.append(school_row)
+        if class_sheet == "C":
+            C_S_school_list_sheet.append(school_row)
+        if class_sheet == "D":
+            D_S_school_list_sheet.append(school_row)
+
+row = 2
+range_start = "B"
+range_end = ":W"
+sheet_range = ""
+ranks = []
+clear_color_range = "A1:W" + str(len(school_names) + 5)
+
+GTennis2022.append_rows(school_list_sheet, table_range='B2')
+GTennis2022.format(clear_color_range, {"backgroundColor": {"red": 1, "green": 1, "blue": 1}})
+
+if len(AA_N_school_list_sheet) > 0:
+    range_start = "B" + str(row)
+    color_range_start = "A" + str(row)
+    row = row + len(AA_N_school_list_sheet) - 1
+    range_end = ":W" + str(row)
+    sheet_range = range_start + range_end
+    color_sheet_range = color_range_start + range_end
+    GTennis2022.sort((23, 'des'), range=sheet_range)
+    row += 1
+    for ii in range(len(AA_N_school_list_sheet)):
+        ranks.append([ii+1])
+    GTennis2022.format(color_sheet_range, {"backgroundColor": {"red": 20, "green": 100, "blue": 100}})
+
+if len(AA_S_school_list_sheet) > 0:
+    range_start = "B" + str(row)
+    color_range_start = "A" + str(row)
+    row = row + len(AA_N_school_list_sheet) - 1
+    range_end = ":W" + str(row)
+    sheet_range = range_start + range_end
+    color_sheet_range = color_range_start + range_end
+    GTennis2022.sort((23, 'des'), range=sheet_range)
+    row += 1
+    for ii in range(len(AA_S_school_list_sheet)):
+        ranks.append([ii+1])
+    GTennis2022.format(color_sheet_range, {"backgroundColor": {"red": 100, "green": 20, "blue": 100}})
+
+
+if len(A_N_school_list_sheet) > 0:
+    range_start = "B" + str(row)
+    color_range_start = "A" + str(row)
+    row = row + len(A_N_school_list_sheet) - 1
+    range_end = ":W" + str(row)
+    sheet_range = range_start + range_end
+    color_sheet_range = color_range_start + range_end
+    GTennis2022.sort((23, 'des'), range=sheet_range)
+    row += 1
+    for ii in range(len(A_N_school_list_sheet)):
+        ranks.append([ii+1])
+    GTennis2022.format(color_sheet_range, {"backgroundColor": {"red": 20, "green": 20, "blue": 100}})
+    
+if len(A_S_school_list_sheet) > 0:
+    range_start = "B" + str(row)
+    color_range_start = "A" + str(row)
+    row = row + len(A_S_school_list_sheet) - 1
+    range_end = ":W" + str(row)
+    sheet_range = range_start + range_end
+    color_sheet_range = color_range_start + range_end
+    GTennis2022.sort((23, 'des'), range=sheet_range)
+    row += 1
+    for ii in range(len(A_S_school_list_sheet)):
+        ranks.append([ii+1])
+    GTennis2022.format(color_sheet_range, {"backgroundColor": {"red": 100, "green": 20, "blue": 100}})
+
+if len(B_N_school_list_sheet) > 0:
+    range_start = "B" + str(row)
+    color_range_start = "A" + str(row)
+    row = row + len(B_N_school_list_sheet) - 1
+    range_end = ":W" + str(row)
+    sheet_range = range_start + range_end
+    color_sheet_range = color_range_start + range_end
+    GTennis2022.sort((23, 'des'), range=sheet_range)
+    row += 1
+    for ii in range(len(B_N_school_list_sheet)):
+        ranks.append([ii+1])
+    GTennis2022.format(color_sheet_range, {"backgroundColor": {"red": 20, "green": 20, "blue": 100}})
+
+if len(B_S_school_list_sheet) > 0:
+    range_start = "B" + str(row)
+    color_range_start = "A" + str(row)
+    row = row + len(B_S_school_list_sheet) - 1
+    range_end = ":W" + str(row)
+    sheet_range = range_start + range_end
+    color_sheet_range = color_range_start + range_end
+    GTennis2022.sort((23, 'des'), range=sheet_range)
+    row += 1
+    for ii in range(len(B_S_school_list_sheet)):
+        ranks.append([ii+1])
+    GTennis2022.format(color_sheet_range, {"backgroundColor": {"red": 100, "green": 20, "blue": 100}})
+
+if len(C_N_school_list_sheet) > 0:
+    range_start = "B" + str(row)
+    color_range_start = "A" + str(row)
+    row = row + len(C_N_school_list_sheet) - 1
+    range_end = ":W" + str(row)
+    sheet_range = range_start + range_end
+    color_sheet_range = color_range_start + range_end
+    GTennis2022.sort((23, 'des'), range=sheet_range)
+    row += 1
+    for ii in range(len(C_N_school_list_sheet)):
+        ranks.append([ii+1])
+    GTennis2022.format(color_sheet_range, {"backgroundColor": {"red": 20, "green": 20, "blue": 100}})
+
+if len(C_S_school_list_sheet) > 0:
+    range_start = "B" + str(row)
+    color_range_start = "A" + str(row)
+    row = row + len(C_S_school_list_sheet) - 1
+    range_end = ":W" + str(row)
+    sheet_range = range_start + range_end
+    color_sheet_range = color_range_start + range_end
+    GTennis2022.sort((23, 'des'), range=sheet_range)
+    row += 1
+    for ii in range(len(C_S_school_list_sheet)):
+        ranks.append([ii+1])
+    GTennis2022.format(color_sheet_range, {"backgroundColor": {"red": 100, "green": 20, "blue": 100}})
+
+if len(D_N_school_list_sheet) > 0:
+    range_start = "B" + str(row)
+    color_range_start = "A" + str(row)
+    row = row + len(D_N_school_list_sheet) - 1
+    range_end = ":W" + str(row)
+    sheet_range = range_start + range_end
+    color_sheet_range = color_range_start + range_end
+    GTennis2022.sort((23, 'des'), range=sheet_range)
+    row += 1
+    for ii in range(len(D_N_school_list_sheet)):
+        ranks.append([ii+1])
+    GTennis2022.format(color_sheet_range, {"backgroundColor": {"red": 20, "green": 20, "blue": 100}})
+
+if len(D_S_school_list_sheet) > 0:
+    range_start = "B" + str(row)
+    color_range_start = "A" + str(row)
+    row = row + len(D_S_school_list_sheet) - 1
+    range_end = ":W" + str(row)
+    sheet_range = range_start + range_end
+    color_sheet_range = color_range_start + range_end
+    GTennis2022.sort((23, 'des'), range=sheet_range)
+    row += 1
+    for ii in range(len(D_S_school_list_sheet)):
+        ranks.append([ii+1])
+    GTennis2022.format(color_sheet_range, {"backgroundColor": {"red": 100, "green": 20, "blue": 100}})
+
+row -= 1
+no_bold_range = 'A2:W' + str(row)
+
+GTennis2022.append_rows(ranks, table_range='A2')
+GTennis2022.format('A1:W1', {"textFormat": {"bold": True}})
+GTennis2022.format(no_bold_range, {"textFormat": {"bold": False}})
+GTennis2022.freeze(rows=1, cols=2)
+
+
+print("Power rating sheet updated")
+
+#ADD LINE BELOW EACH DIVISION
