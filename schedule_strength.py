@@ -367,56 +367,48 @@ def school_setup(school_name_list):
         i += 1
     PI_summation(points)
     TI_summation(school_names)
-
 def get_current_school_name(ID):
     school_query = "SELECT school_name FROM school WHERE ID = '%s'"
     tup_count = ID,
     mycursor.execute(school_query, tup_count)
     current_school_name = mycursor.fetchone()[0]
     return current_school_name
-
 def get_current_school_class(school_name):
     class_query = "SELECT class FROM school WHERE school_name = %s"
     tup_school = school_name,
     mycursor.execute(class_query, tup_school)
     current_school_class = mycursor.fetchone()[0]
     return current_school_class
-
 def get_AA_wins(school_name):
     get_wins = "SELECT AA_wins FROM school WHERE school_name = '%s'" % (school_name)
     mycursor.execute(get_wins)
     AA_wins = mycursor.fetchone()[0]
     AA_wins = Decimal(AA_wins)
     return AA_wins
-
 def get_A_wins(school_name):
     get_wins = "SELECT A_wins FROM school WHERE school_name = '%s'" % (school_name)
     mycursor.execute(get_wins)
     A_wins = mycursor.fetchone()[0]
     A_wins = Decimal(A_wins)
     return A_wins
-
 def get_B_wins(school_name):
     get_wins = "SELECT B_wins FROM school WHERE school_name = '%s'" % (school_name)
     mycursor.execute(get_wins)
     B_wins = mycursor.fetchone()[0]
     B_wins = Decimal(B_wins)
     return B_wins
-
 def get_C_wins(school_name):
     get_wins = "SELECT C_wins FROM school WHERE school_name = '%s'" % (school_name)
     mycursor.execute(get_wins)
     C_wins = mycursor.fetchone()[0]
     C_wins = Decimal(C_wins)
     return C_wins
-
 def get_D_wins(school_name):
     get_wins = "SELECT D_wins FROM school WHERE school_name = '%s'" % (school_name)
     mycursor.execute(get_wins)
     D_wins = mycursor.fetchone()[0]
     D_wins = Decimal(D_wins)
     return D_wins
-
 def get_current_wins(school_name):
     get_wins = "SELECT wins FROM school WHERE school_name = '%s'" % (school_name)
     get_ties = "SELECT ties FROM school WHERE school_name = '%s'" % (school_name)
@@ -429,15 +421,13 @@ def get_current_wins(school_name):
     ties = Decimal(ties) / 2
     wins = wins + ties
     return wins
-
 def get_current_games(school_name):
     get_games = "SELECT games FROM school WHERE school_name = '%s'" % (school_name)
     mycursor.execute(get_games)
     games = mycursor.fetchone()[0]
     games = Decimal(games)
     return games
-
-def make_SoS_calculations(str_rating_sheet):
+def make_SoS_calculations(str_rating_sheet, column_number):
 
     rating_sheet = client.open('PowerRatings').worksheet(str_rating_sheet)
     str_match_list_sheet = str_rating_sheet + 'MatchList'
@@ -696,7 +686,7 @@ def make_SoS_calculations(str_rating_sheet):
         except:
             game_win_percentage = 0
 
-        power_rating = (2 * games_win_ratio + 1 * points_win_ratio) * current_SoS2_heal_combined / 3
+        power_rating = (3 * games_win_ratio + 1 * points_win_ratio) * current_SoS2_heal_combined / 4
 
         add_game_win_percentage = "UPDATE school set GameWP = %s WHERE school_name = %s"
         game_win_tuple = game_win_percentage, current_school
@@ -831,12 +821,12 @@ def make_SoS_calculations(str_rating_sheet):
 
     rating_sheet.append_rows(school_list_sheet, table_range='B2')
     rating_sheet.format(clear_color_range, {"backgroundColor": {"red": 1, "green": 1, "blue": 1}})
+    #below sorts first by class, then region, then by tournament index
+    rating_sheet.sort((3, 'asc'), (4, 'asc'), (column_number, 'des'), range=sort_range)
 
-    rating_sheet.sort((3, 'asc'), (4, 'asc'), (23, 'des'), range=sort_range)
-
-    no_bold_range = 'A2:W' + '3'
-    rating_sheet.format(no_bold_range, {"textFormat": {"bold": False}})
-    rating_sheet.format('A1:W1', {"textFormat": {"bold": True}})
+    #no_bold_range = 'A2:W' + '3'
+    #rating_sheet.format(no_bold_range, {"textFormat": {"bold": False}})
+    #rating_sheet.format('A1:W1', {"textFormat": {"bold": True}})
     rating_sheet.freeze(rows=1, cols=2)
 
     all_results = rating_sheet.batch_get([all_results_range])
@@ -860,16 +850,23 @@ def make_SoS_calculations(str_rating_sheet):
                 rank = 0
         #below assumes that a team will not exist as the sole team in its class/region combo
         except IndexError: 
-            rank = ranks[len(ranks) - 1][0] + 1
+            if all_results[0][i][2] == all_results[0][i-1][2] and all_results[0][i][3] == all_results[0][i-1][3]:
+                rank = ranks[len(ranks) - 1][0] + 1
+            else:
+                rank = 1
             ranks.append([rank])
             break
-   
     rating_sheet.append_rows(ranks, table_range='A2')
 
 
-    print("Power rating sheet updated")
+    print("PowerRating Google sheet updated")
 
-school_setup(update_matches('GTennis2022MatchList'))
+#school_setup(update_matches('GTennis2022MatchList'))
+#make_SoS_calculations('GTennis2022')
+
+school_setup(update_matches('BBasketball2023MatchList'))
+#int param determines sort: 15 for TI, 23 for PowerR
+make_SoS_calculations('BBasketball2023', 23)
+
 print("done")
-
-make_SoS_calculations('GTennis2022')
+mydb.close()
