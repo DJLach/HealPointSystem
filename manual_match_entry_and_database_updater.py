@@ -8,6 +8,7 @@ mydb = mysql.connector.connect(
 mycursor = mydb.cursor()
 mydb.autocommit = True
 #defines function for calculating PI values based on wins and updating the school table
+
 points = [42, 40, 38, 36, 34] #update to take values from database
 def PI_summation():
   max_number = "SELECT MAX(ID) FROM school"

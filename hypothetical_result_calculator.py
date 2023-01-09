@@ -1,6 +1,5 @@
 from decimal import Decimal
 import mysql.connector
-import csv
 #connect to database
 mydb = mysql.connector.connect(
   host="localhost",
@@ -412,7 +411,7 @@ if add_or_no == True:
   TI_summation()
 
 school_class = ["AA", "A", "B", "C", "D"]
-school_region = ["NORTH", "SOUTH"]
+school_region = ["NORTH", "SOUTH", "N", "S"]
 
 while True:
   user_input = input("""View all schools by typing "all" or by class with "AA", "A", "B", "C", or "D:" """).upper()

@@ -18,9 +18,12 @@ client = gspread.authorize(credentials)
 #ABOVE BLOCK DOES NOT NEED TO BE COPIED
 
 def update_matches(str_match_list_sheet):
+    school_names = []
     mycursor.execute("delete from match_list")
+    mycursor.execute("DELETE FROM school")
     match_list_sheet = client.open('PowerRatings').worksheet(str_match_list_sheet)
     match_results = match_list_sheet.get_all_values()
+    new_ID = 0
     if len(match_results) > 1:
         del match_results[0]
         for i in range(len(match_results)):
@@ -31,9 +34,36 @@ def update_matches(str_match_list_sheet):
             m_Tie_ID_2 = match_results[i][4]
             m_Score_1 = match_results[i][5]
             m_Score_2 = match_results[i][6]
+            m_T1_Class = match_results[i][7]
+            m_T1_Region = match_results[i][8]
+            m_T2_Class = match_results[i][9]
+            m_T2_Region = match_results[i][10]
             match_send = "insert into match_list (ID, Win_ID, Lose_ID, Tie_ID_1, Tie_ID_2, Score_1, Score_2) values (%s, %s, %s, %s, %s, %s, %s)"
             match_val = (m_ID, m_Win_ID, m_Lose_ID, m_Tie_ID_1, m_Tie_ID_2, m_Score_1, m_Score_2)
             mycursor.execute(match_send, match_val)
+            ID_class_update = "INSERT INTO school (ID, school_name, class, region) VALUES (%s, %s, %s, %s)"
+            if m_Win_ID not in school_names and m_Win_ID != "":
+                school_names.append(m_Win_ID)
+                new_ID += 1
+                values = (new_ID, m_Win_ID, m_T1_Class, m_T1_Region)
+                mycursor.execute(ID_class_update, values)
+            if m_Lose_ID not in school_names and m_Lose_ID != "":
+                school_names.append(m_Lose_ID)
+                new_ID += 1
+                values = (new_ID, m_Lose_ID, m_T2_Class, m_T2_Region)
+                mycursor.execute(ID_class_update, values)
+            if m_Tie_ID_1 not in school_names and m_Tie_ID_1 != "":
+                school_names.append(m_Tie_ID_1)
+                new_ID += 1
+                values = (new_ID, m_Tie_ID_1, m_T1_Class, m_T1_Region)
+                mycursor.execute(ID_class_update, values)
+            if m_Tie_ID_2 not in school_names and m_Tie_ID_2 != "":
+                school_names.append(m_Tie_ID_2)
+                new_ID += 1
+                values = (new_ID, m_Tie_ID_2, m_T2_Class, m_T2_Region)
+                mycursor.execute(ID_class_update, values)
+
+    return school_names
 def PI_summation(points):
   max_number = "SELECT MAX(ID) FROM school"
   mycursor.execute(max_number)
@@ -209,20 +239,10 @@ def TI_summation(school_names):
     mycursor.execute(u_s_s, tup_TI_pri)
     #print (TI_sum)
     i += 1
-def school_setup():
+def school_setup(school_name_list):
     points = [42, 40, 38, 36, 34] #update to take values from database
     #set list of schools
-    school_names = []
-    school_count = 1
-    mycursor.execute("select count(*) from school")
-    row_total = mycursor.fetchone()[0]
-    while school_count <= row_total:
-        school_select = "SELECT school_name FROM school WHERE ID = %s"
-        tup_school_count = school_count,
-        mycursor.execute(school_select, tup_school_count)
-        current_school_name = mycursor.fetchone()[0]
-        school_names.append(current_school_name)
-        school_count += 1
+    school_names = school_name_list #will make list of school names from match_list
 
     #reset wins/games in database
     mycursor.execute("UPDATE school SET wins = 0")
@@ -350,9 +370,7 @@ def school_setup():
     PI_summation(points)
     TI_summation(school_names)
 
-update_matches('GTennis2022MatchList')
-school_setup()
-
+school_setup(update_matches('GTennis2022MatchList'))
 print("done")
 
 mydb.close

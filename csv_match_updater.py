@@ -1,5 +1,3 @@
-#add function to update PI/TI within this program
-
 import mysql.connector
 import csv
 #connect to database
